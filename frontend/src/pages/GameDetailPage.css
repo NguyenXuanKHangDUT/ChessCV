@@ -1,183 +1,247 @@
+/* Game Review: Chess.com-inspired layout, ChessCV cyan board retained. */
+
 .review-page {
-  max-width: 1480px;
-  margin: 16px auto;
-  color: #f3f4f6;
+  --review-bg: #1e2938;
+  --review-panel: #202c3d;
+  --review-muted: #99acc4;
+  --review-border: #344559;
+  max-width: 1510px;
+  margin: 8px auto 24px;
+  color: #f1f5f9;
 }
 
-/* ============================================================
-   HEADER
-============================================================ */
-
-.review-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 17px;
-}
-
-.review-header h1 {
-  margin: 7px 0 4px;
-  font-size: clamp(22px, 2.5vw, 30px);
-}
-
-.review-header p,
-.review-muted,
-.review-keyboard-hint {
-  color: #a3b2c5;
-  line-height: 1.5;
-}
-
-.review-header p {
-  margin: 0;
-}
-
-.review-back {
-  color: #93c5fd;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 650;
-}
-
-.review-back:hover {
-  text-decoration: underline;
-}
+.review-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+.review-header h1 { font-size: clamp(22px, 2vw, 27px); margin: 5px 0 4px; }
+.review-header p { margin: 0; font-size: 12px; color: #9bb1ca; }
+.review-back { color: #91c8ff; text-decoration: none; font-size: 12px; font-weight: 700; }
+.review-back:hover { text-decoration: underline; }
 
 .review-analyze-button {
-  background: #3b82f6;
-  border: 0;
-  padding: 12px 18px;
+  flex-shrink: 0;
+  padding: 10px 16px;
+  color: #fff;
+  background: #347dea;
+  border: 1px solid #5095f9;
   border-radius: 9px;
-  color: white;
   font-weight: 750;
-  white-space: nowrap;
 }
 
-.review-analyze-button:hover:not(:disabled) {
-  background: #2563eb;
-}
+.review-analyze-button:hover:not(:disabled) { background: #2469d4; }
+.review-analyze-button:disabled { opacity: .55; cursor: progress; }
+.review-error { margin-bottom: 14px; }
+.review-muted, .review-keyboard-hint { color: #97abc1; }
 
-.review-analyze-button:disabled {
-  opacity: .55;
-}
-
-.review-error {
-  margin-bottom: 15px;
-}
-
-/* ============================================================
-   PLAYERS
-============================================================ */
-
-.review-match {
+.review-analyzing {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 14px 18px;
-  margin-bottom: 16px;
-  border: 1px solid #374151;
-  border-radius: 12px;
-  background: #1f2937;
+  gap: 10px;
+  padding: 11px 14px;
+  margin-bottom: 15px;
+  border: 1px solid #395e76;
+  border-radius: 9px;
+  color: #c6e8fa;
+  background: #162d40;
+  font-size: 13px;
 }
 
-.review-match > span {
-  color: #94a3b8;
+.review-spinner {
+  height: 16px;
+  width: 16px;
+  border: 2px solid #476b84;
+  border-top-color: #7fdbef;
+  border-radius: 50%;
+  animation: review-spin .8s linear infinite;
 }
 
-.review-match .review-result {
-  margin-left: auto;
-  padding: 6px 13px;
-  border-radius: 8px;
-  color: #bfdbfe;
-  background: #152c49;
-  font-weight: 750;
+@keyframes review-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ============================================================
-   MAIN LAYOUT
+   MOVE QUALITY COLORS - CHESS.COM-INSPIRED PALETTE
+============================================================ */
+
+.class-brilliant { --q: #1baca6; color: #1baca6; }
+.class-great { --q: #429de1; color: #429de1; }
+.class-best { --q: #81b64c; color: #81b64c; }
+.class-excellent { --q: #96bb60; color: #96bb60; }
+.class-good { --q: #a5b398; color: #a5b398; }
+.class-book { --q: #9b9b9b; color: #a9a9a9; }
+.class-inaccuracy { --q: #f7c045; color: #f7c045; }
+.class-mistake { --q: #e99c38; color: #e99c38; }
+.class-miss { --q: #eb6868; color: #eb6868; }
+.class-blunder { --q: #f44343; color: #f44343; }
+
+/* ============================================================
+   MAIN TWO-COLUMN LAYOUT
 ============================================================ */
 
 .review-layout {
   display: grid;
-  grid-template-columns:
-    minmax(350px, 1fr)
-    minmax(340px, .84fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(410px, .92fr);
+  gap: 22px;
   align-items: start;
 }
 
-.review-board-panel,
-.review-card {
+.review-board-panel {
   min-width: 0;
-  padding: 18px;
-  border: 1px solid #374151;
-  border-radius: 13px;
-  background: #1f2937;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.review-board-heading,
+.review-side-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-card {
+  min-width: 0;
+  padding: 15px 17px;
+  border: 1px solid var(--review-border);
+  border-radius: 12px;
+  background: var(--review-bg);
+}
+
+.review-card h2, .review-card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
 .review-card-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.review-board-heading span,
-.review-card-heading span {
-  color: #94a3b8;
+.review-card-heading h2, .review-card-heading h3 { margin: 0; }
+.review-card-heading span { color: var(--review-muted); font-size: 11px; }
+
+/* ============================================================
+   PLAYERS ABOVE AND BELOW BOARD
+============================================================ */
+
+.review-player-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 45px;
+  margin-left: 39px;
+  padding: 4px 0;
+}
+
+.review-player-top { margin-bottom: 6px; }
+.review-player-bottom { margin-top: 6px; }
+
+.review-player-avatar {
+  display: grid;
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border-radius: 8px;
+  background: #4b586b;
+  font-size: 29px;
+  line-height: 1;
+  border: 1px solid #66758a;
+}
+
+.review-player-avatar.white {
+  color: #fafafa;
+  text-shadow: 0 1px 2px #182334;
+}
+
+.review-player-avatar.black {
+  color: #141c28;
+  background: #9ea8b4;
+}
+
+.review-player-details {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.review-player-details strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.review-player-details span {
+  color: #9cafc5;
+  font-size: 11px;
+}
+
+.review-flip-button {
+  margin-left: auto;
+  padding: 7px 10px;
+  background: #2d4058;
+  color: #e1ebf7;
+  border: 1px solid #3f556e;
+  border-radius: 8px;
   font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.review-board-heading button {
-  background: #2d4059;
-  padding: 7px 12px;
+.review-flip-button:hover { background: #3a5577; }
+.review-flip-button span { margin-right: 4px; font-size: 16px; }
+
+.review-result {
+  margin-left: auto;
+  padding: 5px 11px;
+  border: 1px solid #3c5470;
+  border-radius: 8px;
+  background: #172d47;
+  color: #c3deff;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
-.review-board-heading button:hover {
-  background: #3a5477;
+.review-board-caption {
+  margin: 6px 0 0 39px;
+  color: #8ca2ba;
+  font-size: 11px;
 }
 
 /* ============================================================
-   CHESSBOARD
+   BOARD, EVALUATION BAR AND MOVE MARKERS
 ============================================================ */
 
 .review-board-and-eval {
   display: flex;
-  gap: 12px;
   align-items: stretch;
+  gap: 9px;
 }
 
-.review-board {
-  width: min(100%, 600px);
-  min-width: 0;
-  margin: auto;
+.review-eval-meter,
+.review-eval-placeholder {
+  flex: 0 0 29px;
+  width: 29px;
 }
 
-.review-board .live-digital-board {
-  width: 100%;
-  margin: 0;
-}
-
-/* ============================================================
-   EVALUATION BAR
-============================================================ */
+.review-eval-placeholder { background: transparent; }
 
 .review-eval-meter {
   position: relative;
-  flex: 0 0 29px;
   overflow: hidden;
-  border: 1px solid #52647b;
-  border-radius: 6px;
-  background: #162338;
+  border: 1px solid #526176;
+  border-radius: 5px;
+  background: #151c27;
 }
 
 .review-eval-black {
   position: absolute;
   inset: 0;
-  background: #172131;
+  background: #151c27;
 }
 
 .review-eval-white {
@@ -185,267 +249,351 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #edf4f7;
+  background: #f5f6f7;
+  transition: height .2s;
 }
 
-.review-eval-meter span {
+.review-eval-meter > span {
   position: absolute;
+  z-index: 1;
   top: 50%;
   left: 50%;
-  transform:
-    translate(-50%, -50%)
-    rotate(-90deg);
-  font-size: 12px;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  font-size: 11px;
   font-weight: 850;
+  color: #172333;
+  text-shadow: 0 0 3px white, 0 0 3px white;
   white-space: nowrap;
-  color: #2d4260;
-  text-shadow: 0 1px 2px #ffffff;
 }
 
-/* ============================================================
-   REPLAY CONTROLS
-============================================================ */
-
-.review-playback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 15px;
-}
-
-.review-playback button {
-  min-width: 42px;
-  background: #2b3e58;
-}
-
-.review-playback button:hover:not(:disabled) {
-  background: #3b82f6;
-}
-
-.review-playback button:disabled {
-  opacity: .35;
-}
-
-.review-playback > span {
-  min-width: 130px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 13px;
-}
-
-.review-keyboard-hint {
-  margin: 8px 0;
-  text-align: center;
-  font-size: 12px;
-}
-
-/* ============================================================
-   MOVE LIST
-============================================================ */
-
-.review-side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.review-board {
+  flex: 1;
+  width: min(100%, 650px, calc(100dvh - 220px));
+  max-width: 650px;
   min-width: 0;
-}
-
-.review-card h2,
-.review-card h3 {
-  margin: 0 0 13px;
-  font-size: 17px;
-}
-
-.review-card-heading h2,
-.review-card-heading h3 {
   margin: 0;
 }
 
+.review-board .live-digital-board {
+  width: 100%;
+  margin: 0;
+}
+
+.review-board-surface {
+  width: 100%;
+  position: relative;
+}
+
+.review-board-overlay {
+  position: absolute;
+  z-index: 5;
+  inset: 4px;
+  pointer-events: none;
+}
+
+.review-highlight-square,
+.review-marker-square {
+  position: absolute;
+  box-sizing: border-box;
+  width: 12.5%;
+  height: 12.5%;
+}
+
+.review-highlight-square.from {
+  background: rgba(249, 202, 84, .22);
+}
+
+.review-highlight-square.to {
+  background: rgba(251, 210, 88, .35);
+}
+
+.review-board-badge {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 3px;
+  border: 2px solid #f4f7fa;
+  border-radius: 50%;
+  background: var(--q);
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 950;
+  box-shadow: 0 2px 6px #13223599;
+}
+
+.review-board-badge.class-inaccuracy,
+.review-board-badge.class-excellent,
+.review-board-badge.class-good {
+  color: #15202b;
+}
+
+.review-best-arrow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ============================================================
+   RIGHT PANEL - STOCKFISH COMMENTARY
+============================================================ */
+
+.review-coach-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.review-coach-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 15px;
+  background: #152234;
+  border-bottom: 1px solid #34475e;
+}
+
+.review-coach-heading strong { font-size: 15px; }
+
+.review-coach-title-icon {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #81b64c;
+  color: #102033;
+  font-weight: 900;
+}
+
+.review-coach-engine {
+  margin-left: auto;
+  color: #95a9bf;
+  font-size: 11px;
+}
+
+.review-coach-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 16px 11px;
+}
+
+.review-coach-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #31475c;
+  border: 2px solid #52758b;
+  color: #d7e7f2;
+  font-size: 32px;
+}
+
+.review-coach-bubble {
+  flex: 1;
+  min-width: 0;
+  min-height: 83px;
+  position: relative;
+  padding: 12px 14px;
+  background: #eef3f7;
+  border-radius: 11px;
+  color: #1c2939;
+}
+
+.review-coach-bubble::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 17px;
+  width: 15px;
+  height: 15px;
+  transform: rotate(45deg);
+  background: #eef3f7;
+}
+
+.review-coach-bubble > strong { font-size: 14px; }
+
+.review-coach-bubble p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #425369;
+}
+
+.review-coach-bubble-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.review-coach-bubble-top strong {
+  min-width: 0;
+  flex: 1;
+  font-size: 13px;
+}
+
+.review-coach-quality { flex: 0 0 25px; }
+
+.review-coach-score {
+  flex-shrink: 0;
+  padding: 5px 7px;
+  background: #dae3eb;
+  color: #1e344a;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.review-coach-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding: 0 18px 11px 74px;
+  color: #a3b5c9;
+  font-size: 11px;
+}
+
+.review-coach-details strong { color: #e5eef9; }
+
+/* BEST MOVE NOW ON THE RIGHT */
+
+.review-coach-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 11px 15px 15px;
+}
+
+.review-coach-actions button {
+  min-width: 0;
+  min-height: 37px;
+  border: 1px solid #3e5168;
+  border-radius: 8px;
+  background: #2c3b4e;
+  color: #f0f5fb;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.review-coach-actions button:hover:not(:disabled) {
+  background: #40556e;
+}
+
+.review-coach-actions button:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+}
+
+.review-coach-actions .review-best-preview-button.active {
+  border-color: #67bbd2;
+  background: #1e5269;
+}
+
+.review-coach-actions button span { margin-right: 6px; }
+
+.review-best-note {
+  margin: -3px 15px 14px;
+  color: #9ac9de;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   MOVE LIST - ICON BEFORE SAN
+============================================================ */
+
+.review-moves-card { padding: 12px 15px; }
+
 .review-moves-list {
-  max-height: 320px;
+  max-height: 262px;
   overflow-y: auto;
-  padding-right: 3px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #6a7c91 #152338;
 }
 
 .review-move-row {
   display: grid;
-  grid-template-columns: 39px 1fr 1fr;
+  grid-template-columns: 33px 1fr 1fr;
   align-items: center;
-  gap: 5px;
-  padding: 4px;
-  border-radius: 7px;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 5px;
 }
 
-.review-move-row:nth-child(odd) {
-  background: #162235;
-}
+.review-move-row:nth-child(odd) { background: #192638; }
 
 .review-move-number {
-  color: #97a4b5;
-  padding-left: 7px;
-  font-size: 13px;
+  padding-left: 3px;
+  color: #849bb1;
+  font-size: 12px;
 }
 
 .review-move-button {
-  min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-  text-align: left;
+  gap: 6px;
+  min-width: 0;
+  min-height: 28px;
+  padding: 5px 6px;
   background: transparent;
-  border-radius: 6px;
-  padding: 7px 9px;
+  border: 0;
+  border-radius: 5px;
+  color: #e9f0fa;
+  text-align: left;
+  font-size: 12px;
   font-weight: 750;
-  font-size: 13px;
 }
 
-.review-move-button:hover {
-  background: #304965;
-}
+.review-move-button:hover:not(.selected) { background: #31445b; }
 
 .review-move-button.selected {
-  background: #2563eb;
+  background: #314866;
+  box-shadow: inset 0 0 0 1px #547ba1;
 }
 
-.review-move-symbol {
-  font-weight: 950;
-  font-size: 13px;
-}
-
-/* ============================================================
-   SELECTED MOVE DETAILS
-============================================================ */
-
-.review-card .review-muted {
-  margin: 0;
-  font-size: 13px;
-}
-
-.review-move-details {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-.review-move-details > div:not(.review-classification) {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 13px;
-}
-
-.review-move-details > div > span {
-  color: #a5b6c9;
-}
-
-.review-classification {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.review-class-tag {
-  padding: 6px 10px;
-  background: #18283a;
-  border-radius: 8px;
-  font-weight: 800;
-}
-
-/* ============================================================
-   ACCURACY SUMMARY
-============================================================ */
-
-.review-accuracy-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 12px 0;
-}
-
-.review-accuracy-grid > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.review-move-san {
   min-width: 0;
-  padding: 12px;
-  background: #152339;
-  border-radius: 9px;
-}
-
-.review-accuracy-grid span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 13px;
 }
 
-.review-accuracy-grid strong {
-  font-size: 27px;
-  color: #a5d5ff;
+.review-move-button.class-brilliant .review-move-san,
+.review-move-button.class-great .review-move-san,
+.review-move-button.class-inaccuracy .review-move-san,
+.review-move-button.class-mistake .review-move-san,
+.review-move-button.class-miss .review-move-san,
+.review-move-button.class-blunder .review-move-san {
+  color: var(--q);
 }
 
-.review-accuracy-grid small {
-  color: #94a3b8;
+.review-move-symbol {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--q);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 950;
+  line-height: 1;
 }
 
-.review-summary-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.review-summary-table th,
-.review-summary-table td {
-  padding: 8px 5px;
-  border-bottom: 1px solid #39485a;
-  text-align: right;
-}
-
-.review-summary-table th:first-child,
-.review-summary-table td:first-child {
-  text-align: left;
-}
-
-.review-summary-table th {
-  color: #94a3b8;
-}
-
-.review-disclaimer {
-  color: #93a6bb;
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-/* ============================================================
-   MOVE QUALITY COLORS
-============================================================ */
-
-.class-best {
-  color: #67d7dd;
-}
-
-.class-excellent {
-  color: #61c592;
-}
-
-.class-good {
-  color: #9bc88c;
-}
-
-.class-inaccuracy {
-  color: #f4c66c;
-}
-
-.class-mistake {
-  color: #f49957;
-}
-
-.class-blunder {
-  color: #ed6b74;
+.review-move-symbol.class-good,
+.review-move-symbol.class-excellent,
+.review-move-symbol.class-inaccuracy {
+  color: #172431;
 }
 
 /* ============================================================
@@ -453,9 +601,9 @@
 ============================================================ */
 
 .review-chart-card {
-  margin-top: 13px;
-  padding: 12px;
-  background: #152236;
+  padding: 12px 13px 10px;
+  border: 1px solid var(--review-border);
+  background: var(--review-bg);
   border-radius: 10px;
 }
 
@@ -464,40 +612,184 @@
   width: 100%;
   height: auto;
   border-radius: 6px;
+  cursor: crosshair;
+}
+
+.review-graph-point {
+  fill: var(--q);
+  stroke: #152438;
+  stroke-width: 1.2px;
+}
+
+.review-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  color: #90a6bb;
+  font-size: 10px;
 }
 
 /* ============================================================
-   PGN
+   REPLAY CONTROLS ON RIGHT
 ============================================================ */
 
-.review-pgn {
-  margin-top: 18px;
+.review-playback {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
 }
+
+.review-playback button {
+  min-height: 45px;
+  padding: 6px;
+  border: 1px solid #3e526a;
+  border-radius: 9px;
+  background: #2d4057;
+  color: #f0f6fd;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.review-playback button:hover:not(:disabled) { background: #405e7c; }
+.review-playback button:disabled { opacity: .38; cursor: not-allowed; }
+
+.review-playback .review-autoplay-button {
+  background: #285170;
+  border-color: #396e92;
+}
+
+.review-keyboard-hint {
+  margin: -6px 0 3px;
+  text-align: center;
+  font-size: 11px;
+}
+
+/* ============================================================
+   ACCURACY AND MOVE QUALITY SUMMARY
+============================================================ */
+
+.review-accuracy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin: 12px 0 16px;
+}
+
+.review-accuracy-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 11px;
+  background: #152338;
+  border-radius: 8px;
+}
+
+.review-accuracy-grid span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.review-accuracy-grid strong { color: #b1d6ff; font-size: 23px; }
+.review-accuracy-grid small { color: #98acc2; }
+.review-quality-breakdown { display: flex; flex-direction: column; }
+
+.review-breakdown-header,
+.review-breakdown-row {
+  display: grid;
+  grid-template-columns: minmax(122px, 1fr) minmax(50px, .53fr) minmax(50px, .53fr);
+  align-items: center;
+  gap: 6px;
+  padding: 7px 0;
+  border-bottom: 1px solid #36475c;
+  font-size: 12px;
+}
+
+.review-breakdown-header { color: #9bb2c9; font-weight: 750; }
+.review-breakdown-header span:not(:first-child) { text-align: center; }
+
+.review-breakdown-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.review-breakdown-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  background: var(--q);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 950;
+}
+
+.review-breakdown-count {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+
+.review-breakdown-count strong { font-variant-numeric: tabular-nums; }
+
+.review-count-bar {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #122135;
+}
+
+.review-count-bar i {
+  display: block;
+  height: 100%;
+  background: #8cc5e4;
+  border-radius: inherit;
+}
+
+.review-breakdown-row .review-breakdown-count:last-child i {
+  background: #b8bad2;
+}
+
+.review-disclaimer {
+  margin-bottom: 0;
+  color: #95a9bf;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   SAVED PGN
+============================================================ */
+
+.review-pgn { margin-top: 16px; }
 
 .review-pgn pre {
   overflow-x: auto;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  margin: 0;
   padding: 13px;
   border-radius: 8px;
-  background: #121c2a;
-  color: #cce5f7;
-  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #121e2d;
+  color: #cfe7f9;
   line-height: 1.55;
+  font-size: 12px;
 }
 
 /* ============================================================
    RESPONSIVE
 ============================================================ */
 
-@media (max-width: 1080px) {
-  .review-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .review-board {
-    max-width: 580px;
-  }
+@media (max-width: 1150px) {
+  .review-layout { grid-template-columns: 1fr; }
+  .review-board-panel { max-width: 660px; }
+  .review-side-panel { width: 100%; }
+  .review-moves-list { max-height: 320px; }
 }
 
 @media (max-width: 620px) {
@@ -506,22 +798,47 @@
     flex-direction: column;
   }
 
-  .review-analyze-button {
-    width: 100%;
+  .review-analyze-button { width: 100%; }
+  .review-layout { gap: 14px; }
+  .review-card { padding: 12px; }
+  .review-coach-card { padding: 0; }
+  .review-coach-body { padding: 12px; }
+
+  .review-coach-avatar {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+    font-size: 25px;
   }
 
-  .review-board-panel,
-  .review-card {
-    padding: 12px;
+  .review-coach-bubble { padding: 10px; }
+  .review-coach-details { padding-left: 12px; }
+
+  .review-player-avatar {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+    font-size: 24px;
   }
 
-  .review-playback > span {
-    min-width: 92px;
-    font-size: 11px;
+  .review-player-details strong { font-size: 12px; }
+  .review-player-bar { margin-left: 31px; }
+  .review-board-caption { margin-left: 31px; }
+
+  .review-eval-meter,
+  .review-eval-placeholder {
+    flex-basis: 22px;
+    width: 22px;
+  }
+
+  .review-board-badge {
+    min-width: 19px;
+    height: 19px;
+    font-size: 9px;
   }
 
   .review-playback button {
-    min-width: 32px;
-    padding: 7px;
+    min-height: 39px;
+    font-size: 14px;
   }
 }

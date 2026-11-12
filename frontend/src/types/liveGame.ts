@@ -4,7 +4,8 @@ export type GameMode =
 
 export type BotType =
   | "beginner"
-  | "stockfish_1800";
+  | "stockfish_1800"
+  | "stockfish_2800";
 
 export type PositionMode =
   | "standard"
