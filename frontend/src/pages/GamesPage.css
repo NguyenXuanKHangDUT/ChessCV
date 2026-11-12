@@ -1,0 +1,273 @@
+.games-page {
+  max-width: 1350px;
+
+  margin: 0 auto;
+}
+
+
+.games-header {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap: 20px;
+}
+
+
+.games-header h1 {
+  margin-top: 0;
+
+  margin-bottom: 6px;
+}
+
+
+.games-refresh-button {
+  min-height: 40px;
+
+  padding:
+    0 15px;
+
+  border:
+    1px solid #4b5563;
+
+  border-radius: 8px;
+
+  background: #374151;
+
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+
+.games-refresh-button:hover:not(:disabled) {
+  background: #4b5563;
+}
+
+
+.games-refresh-button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.55;
+}
+
+
+.games-error {
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border:
+    1px solid #991b1b;
+
+  border-radius: 8px;
+
+  background: #3f161d;
+}
+
+
+.games-table-card {
+  margin-top: 24px;
+
+  overflow: hidden;
+
+  border:
+    1px solid #374151;
+
+  border-radius: 12px;
+
+  background: #1f2937;
+}
+
+
+.games-table-wrapper {
+  overflow-x: auto;
+}
+
+
+.games-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+
+.games-table th,
+.games-table td {
+  padding:
+    14px 16px;
+
+  border-bottom:
+    1px solid #374151;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+.games-table th {
+  background: #111827;
+
+  color: #9ca3af;
+
+  font-size: 12px;
+
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+}
+
+
+.games-table
+tbody
+tr {
+  transition:
+    background 0.15s ease;
+}
+
+
+.games-table
+tbody
+tr:hover {
+  background: #263244;
+}
+
+
+.games-table
+tbody
+tr:last-child
+td {
+  border-bottom: 0;
+}
+
+
+.game-date {
+  color: #cbd5e1;
+
+  font-size: 13px;
+}
+
+
+.game-player {
+  font-weight: 600;
+}
+
+
+.game-result {
+  display: inline-flex;
+
+  justify-content: center;
+
+  min-width: 66px;
+
+  padding:
+    5px 9px;
+
+  border-radius: 999px;
+
+  background: #111827;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
+  font-weight: 700;
+}
+
+
+.game-moves {
+  text-align: center !important;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+}
+
+
+.games-empty {
+  display: flex;
+
+  min-height: 230px;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding: 30px;
+
+  color: #9ca3af;
+
+  text-align: center;
+}
+
+
+.games-empty strong {
+  color: #f3f4f6;
+
+  font-size: 18px;
+}
+
+
+@media (
+  max-width: 760px
+) {
+
+  .games-header {
+    flex-direction: column;
+  }
+
+
+  .games-refresh-button {
+    width: 100%;
+  }
+}
+
+
+/* ============================================================
+   NEW: SAVED GAME REPLAY / ANALYSIS LINK
+============================================================ */
+
+.games-review-link {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 36px;
+
+  padding: 8px 12px;
+
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+
+  background: #1b3253;
+
+  color: #dbeafe;
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+.games-review-link:hover,
+.games-review-link:focus-visible {
+  background: #254772;
+  color: #fff;
+}

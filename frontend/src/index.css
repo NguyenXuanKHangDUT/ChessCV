@@ -1,0 +1,454 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, Arial, sans-serif;
+  background: #111827;
+  color: #f3f4f6;
+}
+
+button, select, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.topbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: #1f2937;
+  border-bottom: 1px solid #374151;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  gap: 22px;
+}
+
+nav a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a.active {
+  color: #ffffff;
+}
+
+.page {
+  width: min(1200px, calc(100% - 40px));
+  margin: 36px auto;
+}
+
+.page h1 {
+  margin-top: 0;
+}
+
+.page-description {
+  color: #9ca3af;
+  max-width: 700px;
+}
+
+.upload-panel {
+  padding: 20px;
+  margin: 24px 0;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  background: #1f2937;
+}
+
+.calibration-panel {
+  margin: 24px 0;
+}
+
+.calibration-info {
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+
+.calibration-canvas {
+  display: block;
+  max-width: 100%;
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  cursor: crosshair;
+}
+
+.calibration-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: #374151;
+  color: #ffffff;
+}
+
+button:hover {
+  background: #4b5563;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.primary-button {
+  background: #16a34a;
+  font-weight: 700;
+}
+
+.primary-button:hover {
+  background: #15803d;
+}
+
+.recognition-result {
+  margin-top: 28px;
+}
+
+.result-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.result-controls select {
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.recognized-fen, .fen-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+  padding: 14px;
+  background: #1f2937;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+code {
+  color: #d1fae5;
+}
+
+.digital-board-panel {
+  width: min(720px, 100%);
+  margin-top: 20px;
+}
+
+.turn-box {
+  margin-top: 10px;
+}
+
+.error-message {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+
+/* =========================================================
+   CHESS-STYLE DESKTOP SIDEBAR
+   Existing navigation links and routes are preserved.
+========================================================= */
+
+@media (min-width: 901px) {
+  .app > .topbar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 40;
+    width: 206px;
+    height: 100vh;
+    padding: 26px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 30px;
+    border-right: 1px solid #374151;
+    border-bottom: 0;
+    background: #1f2937;
+  }
+
+  .app > .topbar .brand {
+    padding: 4px 12px 15px;
+    font-size: 25px;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    color: #f3f4f6;
+  }
+
+  .app > .topbar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .app > .topbar nav a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 15px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    color: #cbd5e1;
+    font-weight: 700;
+    transition:
+      background-color .16s,
+      border-color .16s,
+      color .16s;
+  }
+
+  .app > .topbar nav a:hover {
+    background: #2c394b;
+    color: #fff;
+  }
+
+  .app > .topbar nav a.active {
+    color: #eff6ff;
+    background: #1b3253;
+    border-color: #3b82f6;
+  }
+
+  .app > main {
+    min-width: 0;
+    margin-left: 206px;
+    padding: 1px 20px 42px;
+  }
+
+  .app > main .page {
+    width: min(1500px, calc(100% - 24px));
+    margin: 30px auto;
+  }
+}
+
+
+/* =========================================================
+   MOBILE / TABLET NAVIGATION
+========================================================= */
+
+@media (max-width: 900px) {
+  .app > .topbar {
+    height: auto;
+    min-height: 64px;
+    padding: 14px 20px;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+  }
+
+  .app > .topbar nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .app > .topbar nav a {
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+
+  .app > .topbar nav a.active {
+    background: #1b3253;
+    color: #bfdbfe;
+  }
+}
+
+
+/* =========================================================
+   COLLAPSIBLE SIDEBAR
+========================================================= */
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.app > .topbar .sidebar-toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  padding: 8px;
+  border: 1px solid #4a5870;
+  border-radius: 10px;
+  background: #2b394d;
+  color: #e2e8f0;
+}
+
+.sidebar-toggle:hover {
+  background: #344962;
+}
+
+.sidebar-toggle svg,
+.sidebar-nav a svg {
+  display: block;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.brand-mini {
+  display: none;
+}
+
+.app > .topbar .sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+@media (min-width: 901px) {
+  .app > .topbar .sidebar-top {
+    padding: 0 1px;
+  }
+
+  .app > .topbar .sidebar-top .brand {
+    padding: 0;
+    font-size: 22px;
+  }
+
+  .app.sidebar-collapsed > .topbar {
+    width: 72px;
+    padding: 26px 11px;
+  }
+
+  .app.sidebar-collapsed > main {
+    margin-left: 72px;
+  }
+
+  .app.sidebar-collapsed > .topbar .sidebar-top {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .app.sidebar-collapsed > .topbar .brand-full,
+  .app.sidebar-collapsed > .topbar .nav-label {
+    display: none;
+  }
+
+  .app.sidebar-collapsed > .topbar .brand-mini {
+    display: block;
+    font-size: 15px;
+  }
+
+  .app.sidebar-collapsed > .topbar .sidebar-nav a {
+    justify-content: center;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .app > .topbar .sidebar-top {
+    width: 100%;
+  }
+
+  .app > .topbar .sidebar-top .brand {
+    padding: 0;
+  }
+
+  .app > .topbar .sidebar-nav {
+    display: flex;
+    width: 100%;
+  }
+
+  .app.sidebar-collapsed > .topbar .sidebar-nav {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   LIVE GAME: COMPACT HEADING AND FIT BOARD IN FIRST VIEWPORT
+   Keeps LiveGamePage.tsx and its current CSS unchanged.
+========================================================= */
+
+.app > main .live-game-page {
+  margin-top: 12px;
+}
+
+.app > main .live-game-page .live-header {
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.app > main .live-game-page .live-header h1 {
+  margin: 0 0 3px;
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.app > main .live-game-page .live-header .page-description {
+  font-size: 12px;
+  line-height: 1.35;
+  max-width: none;
+}
+
+.app > main .live-game-page .live-setup-shell {
+  gap: 16px;
+}
+
+.app > main .live-game-page .live-preview-panel {
+  padding: 11px 14px;
+}
+
+.app > main .live-game-page .live-preview-player {
+  min-height: 35px;
+}
+
+.app > main .live-game-page .live-preview-player-avatar {
+  width: 32px;
+  height: 32px;
+  flex-basis: 32px;
+  font-size: 19px;
+}
+
+.app > main .live-game-page .live-preview-panel .live-digital-board {
+  width: min(
+    100%,
+    500px,
+    calc(100dvh - 320px)
+  );
+  margin: 7px auto;
+}
+
+.app > main .live-game-page .live-preview-note {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .app > main .live-game-page .live-preview-panel .live-digital-board {
+    width: min(100%, 500px);
+  }
+}

@@ -1,0 +1,159 @@
+# ============================================================
+# PBL4 ChessCV - Git Ignore
+# ============================================================
+
+# Python environments
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.py[cod]
+
+# Node / npm / TypeScript
+node_modules/
+.npm/
+.yarn/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Framework caches
+.next/
+.nuxt/
+.output/
+.vite/
+.turbo/
+.cache/
+.parcel-cache/
+
+# Testing / coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/
+
+# Image files
+*.png
+
+# Chess game files
+*.pgn
+
+# ============================================================
+# SECURITY - Never upload credentials
+# ============================================================
+
+.env
+.env.*
+!.env.example
+
+# ============================================================
+# Optional local and generated data
+# ============================================================
+
+# Python model checkpoints
+*.pt
+*.pth
+
+# Temporary files
+*.tmp
+*.log
+
+# ============================================================
+# Numeric JSON filenames are added separately
+# because .gitignore cannot express the exact Python regex.
+# ============================================================
+# Numeric JSON generated exclusions
+/data/boards/20260910_234022_798.json
+/data/boards/20260910_234411_500.json
+/data/boards/20260910_234656_885.json
+/data/boards/20260910_235016_757.json
+/data/boards/20260910_235246_289.json
+/data/boards/20260910_235504_257.json
+/data/boards/20260911_000154_340.json
+/data/boards/20260911_000444_540.json
+/data/boards/20260911_000753_806.json
+/data/boards/20260911_001027_407.json
+/data/boards/20260924_232814_611.json
+/data/boards/20260924_233307_681.json
+/data/boards/20260924_233652_076.json
+/data/boards/20260924_234034_118.json
+/data/boards/20260924_234521_784.json
+/data/boards/20260924_234934_113.json
+/data/boards/20260924_235230_868.json
+/data/boards/20260924_235548_410.json
+/data/boards/20260924_235841_907.json
+/data/boards/20260925_000201_363.json
+/data/boards/20260925_000731_917.json
+/data/boards/20260925_001141_091.json
+/data/boards/20260925_001643_399.json
+/data/boards/20260925_002135_545.json
+/data/boards/20260925_002444_246.json
+/data/boards/20260925_002750_039.json
+/data/boards/20260925_003104_017.json
+/data/boards/20260925_003514_241.json
+/data/boards/20260925_003825_851.json
+/data/boards/20260925_004331_220.json
+/data/boards/20261014_234924_790.json
+/data/boards/20261014_235523_401.json
+/data/boards/20261014_235938_748.json
+/data/boards/20261015_000324_427.json
+/data/boards/20261015_000856_647.json
+/data/boards/20261015_171636_337.json
+/data/boards/20261015_172118_142.json
+/data/boards/20261015_172511_330.json
+/data/boards/20261015_195052_783.json
+/data/boards/20261015_200009_540.json
+/data/boards/20261015_200421_014.json
+/data/boards/20261015_200759_716.json
+/data/boards/20261015_201310_981.json
+/data/boards/20261015_201625_892.json
+/data/boards/20261015_202015_334.json
+/data/boards/20261015_202350_296.json
+/data/boards/20261015_202732_167.json
+/data/boards/20261015_203144_462.json
+/data/boards/20261015_203615_384.json
+/data/boards/20261015_211028_996.json
+/data/boards/20261015_211334_566.json
+/data/boards/20261015_211541_277.json
+/data/boards/20261015_211845_466.json
+/data/boards/20261015_212146_017.json
+/data/boards/20261015_212441_560.json
+/data/boards/20261015_212731_207.json
+/data/boards/20261020_171052_781.json
+/data/boards/20261020_171354_515.json
+/data/boards/20261020_171708_032.json
+/data/boards/20261020_173221_765.json
+/data/boards/20261020_173708_918.json
+/data/boards/20261020_174052_239.json
+/data/boards/20261020_174436_674.json
+/data/boards/20261020_174722_786.json
+/data/boards/20261020_175032_763.json
+/data/boards/20261020_175716_316.json
+/data/boards/20261020_180150_163.json
+/data/boards/20261020_180656_180.json
+/data/boards/20261020_180943_204.json
+/data/boards/20261020_181358_985.json
+/data/boards/20261020_182040_016.json
+/data/boards/20261020_182535_180.json
+/data/boards/20261020_183058_009.json
+/data/boards/20261020_183732_599.json
+/data/boards/20261022_155137_023.json
+/data/boards/20261022_155503_497.json
+/data/boards/20261022_155803_058.json
+/data/boards/20261022_160113_752.json
+/data/boards/20261022_160955_234.json
+/data/boards/20261022_161504_954.json
+/data/boards/20261022_161853_002.json
+/data/boards/20261022_162303_286.json
+/data/boards/20261022_162657_808.json
+/data/boards/20261022_163058_581.json
+/data/boards/20261022_163502_306.json
+/data/boards/20261022_163903_020.json

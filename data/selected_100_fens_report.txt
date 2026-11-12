@@ -1,0 +1,180 @@
+SELECTED FEN DATASET REPORT
+============================================================
+
+Dataset policy:
+- Standard Chess only
+- Normal starting position only
+- Broken PGN games excluded
+- Chess960 / variants excluded
+- Visual duplicate board layouts excluded
+- Maximum one selected position per source game
+
+Total positions: 100
+
+Phase distribution:
+  opening     : 20
+  middlegame  : 55
+  endgame     : 25
+
+Square sample totals:
+  occupied: 2070
+  empty   : 4330
+  total   : 6400
+
+Occupied coverage range:
+  minimum: b8 = 12
+  maximum: a2 = 57
+
+Empty coverage range:
+  minimum: a2 = 43
+  maximum: b8 = 88
+
+Occupied count per square:
+a8: 26 b8: 12 c8: 23 d8: 18 e8: 25 f8: 34 g8: 40 h8: 22 
+a7: 43 b7: 48 c7: 28 d7: 24 e7: 27 f7: 52 g7: 52 h7: 49 
+a6: 35 b6: 31 c6: 34 d6: 33 e6: 40 f6: 33 g6: 42 h6: 32 
+a5: 26 b5: 28 c5: 35 d5: 45 e5: 51 f5: 28 g5: 25 h5: 27 
+a4: 25 b4: 23 c4: 38 d4: 38 e4: 37 f4: 32 g4: 24 h4: 28 
+a3: 24 b3: 39 c3: 34 d3: 25 e3: 26 f3: 35 g3: 40 h3: 29 
+a2: 57 b2: 44 c2: 31 d2: 24 e2: 23 f2: 45 g2: 43 h2: 50 
+a1: 22 b1: 13 c1: 23 d1: 22 e1: 20 f1: 31 g1: 32 h1: 25 
+
+Empty count per square:
+a8: 74 b8: 88 c8: 77 d8: 82 e8: 75 f8: 66 g8: 60 h8: 78 
+a7: 57 b7: 52 c7: 72 d7: 76 e7: 73 f7: 48 g7: 48 h7: 51 
+a6: 65 b6: 69 c6: 66 d6: 67 e6: 60 f6: 67 g6: 58 h6: 68 
+a5: 74 b5: 72 c5: 65 d5: 55 e5: 49 f5: 72 g5: 75 h5: 73 
+a4: 75 b4: 77 c4: 62 d4: 62 e4: 63 f4: 68 g4: 76 h4: 72 
+a3: 76 b3: 61 c3: 66 d3: 75 e3: 74 f3: 65 g3: 60 h3: 71 
+a2: 43 b2: 56 c2: 69 d2: 76 e2: 77 f2: 55 g2: 57 h2: 50 
+a1: 78 b1: 87 c1: 77 d1: 78 e1: 80 f1: 69 g1: 68 h1: 75 
+
+Distinct squares per piece class:
+  black_bishop    : 46
+  black_king      : 37
+  black_knight    : 47
+  black_pawn      : 44
+  black_queen     : 62
+  black_rook      : 64
+  white_bishop    : 48
+  white_king      : 41
+  white_knight    : 49
+  white_pawn      : 42
+  white_queen     : 61
+  white_rook      : 59
+
+Total piece observations:
+  black_bishop    : 100
+  black_king      : 100
+  black_knight    : 92
+  black_pawn      : 503
+  black_queen     : 86
+  black_rook      : 158
+  white_bishop    : 101
+  white_king      : 100
+  white_knight    : 94
+  white_pawn      : 495
+  white_queen     : 89
+  white_rook      : 152
+
+Selected source games:
+001 | opening    | 2026.07.31 | Shenoy, Trilok vs Press, Harry | 2026 ANU Open
+002 | opening    | 2026.08.05 | Yilmaz, Kerem Tuna vs Bektas, Cagan Erdem | Round 4: Yilmaz, Kerem Tuna - Bektas, Cagan Erdem
+003 | opening    | 2026.08.04 | Pardo Ruiz, Carlos vs Martinez Rodriguez, Francisco Salvador | Round 3: Pardo Ruiz, Carlos - Martinez Rodriguez, Francisco Salvador
+004 | opening    | 2026.08.03 | Baker, Chris W vs Camp, Imogen A L | Round 3: Baker, Chris W - Camp, Imogen A L
+005 | middlegame | 2026.08.01 | Vasylyk, Oleksiy vs Jordan, Mathias | Open C
+006 | opening    | 2026.08.02 | Toth, Barnabas vs Laszlo, Imre | 29th Pannonia Cup
+007 | middlegame | 2026.08.03 | Panda Sambit vs Nothnagel, Marian Can | Round 3: Panda Sambit - Nothnagel, Marian Can
+008 | opening    | 2026.08.05 | Chinguun, Sumiya vs Gloeckler, Christian | Round 5: Chinguun, Sumiya - Gloeckler, Christian
+009 | opening    | 2026.08.02 | Nowacki, Adam vs Zwardon, Vojtech | Mokate
+010 | middlegame | 2026.08.03 | Bialkowski, Jan vs Niesporek, Franciszek | Open A
+011 | middlegame | 2026.08.02 | Lang, Lorenz vs Lako, Istvan Jr. | Round 3: Lang, Lorenz - Lako, Istvan Jr.
+012 | middlegame | 2026.08.05 | Borisov, Iulian vs Coca Mejia, Izan Deivy | X Open Internacional de Ajedrez Ciutat de Sueca
+013 | middlegame | 2026.08.02 | Hiermann, Dietmar vs Lameirinhas, Paulo | Leca Chess Open 2026
+014 | middlegame | 2026.08.01 | Hackbarth, Bjoern vs Kurilenko, Kyryl | Memoria? Adolfa Anderssena 2026
+015 | middlegame | 2026.08.05 | Jackson, James P vs He, Tom Junde | Round 5: Jackson, James P - He, Tom Junde
+016 | middlegame | 2026.07.29 | Chelly, Yahya vs Ayoub, Morad | Round 6: Chelly, Yahya - Ayoub, Morad
+017 | middlegame | 2026.08.03 | Kozlowski, Bogdan vs Balon, Adam | Open A
+018 | endgame    | 2026.08.01 | Niesyt, Michal vs Szuszkiewicz, Stanislaw | Open A
+019 | middlegame | 2026.08.04 | Endibayev, Aslan vs Jin, Yuxin | Round 4: Endibayev, Aslan - Jin, Yuxin
+020 | middlegame | 2026.08.02 | Podzorski, Pawel vs Plowy, Karol | Open A
+021 | endgame    | 2026.08.04 | Kozera, Patryk vs Fic, Wieslaw | Open A
+022 | endgame    | 2026.08.01 | Salinas Herrera, Pablo vs Hernandez Ojeda, Garry Anatholy | Round 4: Salinas Herrera, Pablo - Hernandez Ojeda, Garry Anatholy
+023 | endgame    | 2026.08.01 | Skrobala, Oleh vs Zazula, Piotr | Memoria? Adolfa Anderssena
+024 | endgame    | 2026.08.04 | Majumder Shrayan vs Vidarte Morales, Arturo | Round 3: Majumder Shrayan - Vidarte Morales, Arturo
+025 | endgame    | 2026.08.02 | Narayanan S L vs Xiao, Tong(QD) | Round 8: Narayanan S L - Xiao, Tong(QD)
+026 | middlegame | 2026.08.02 | So, Wesley vs Giri, Anish | Saint Louis Rapid & Blitz
+027 | middlegame | 2026.08.03 | Ewart, Thomas vs Wierenga, Haijo Deyou | Round 2: Ewart, Thomas - Wierenga, Haijo Deyou
+028 | endgame    | 2026.08.03 | Bytomski, Dominik vs Czarkowski, Dawid | Open C
+029 | middlegame | 2026.08.01 | Jodlowski, Robert vs Meller, Piotr | anderssenRAPID
+030 | endgame    | 2026.08.03 | Pattnayak Nilsu vs Tzidkiya, Yeshaayahu | Round 1: Pattnayak Nilsu - Tzidkiya, Yeshaayahu
+031 | middlegame | 2026.08.05 | Demirtas, Hafize vs Tirpan, Ceren | Round 4: Demirtas, Hafize - Tirpan, Ceren
+032 | middlegame | 2026.08.05 | Leal, Escamilla Alfredo Nicolas vs Gavarrete, Jonathan Ariel | Campeonato Panamericano U-20 2026 - Absoluto
+033 | middlegame | 2026.08.04 | Shahil Dey vs Keleberda, Tymur | Leca Chess Open 2026
+034 | middlegame | 2026.08.04 | Gomez, Magnus vs Daysh, Sofia | Round 3: Gomez, Magnus - Daysh, Sofia
+035 | endgame    | 2026.08.01 | Delgado Gutierrez, Mateo vs Huang, Justin | Round 9: Delgado Gutierrez, Mateo - Huang, Justin
+036 | opening    | 2026.08.05 | Hubai, Mykola vs Busson, Thomas | Round 5: Hubai, Mykola - Busson, Thomas
+037 | endgame    | 2026.08.05 | Ortiz Lopera, Miguel Angel vs Campo Jimenez, David | Round 1: Ortiz Lopera, Miguel Angel - Campo Jimenez, David
+038 | opening    | 2026.08.02 | Kucherov, Lev vs Szalko, Maciej | Open A
+039 | middlegame | 2026.08.01 | Brito Carrascal, Isabela vs Quevedo Bonilla, Paula Thaliana | Round 9: Brito Carrascal, Isabela - Quevedo Bonilla, Paula Thaliana
+040 | endgame    | 2026.08.04 | Stefanou, Dimitrios vs Badelka, Olga | Round 9: Stefanou, Dimitrios - Badelka, Olga
+041 | endgame    | 2026.08.01 | Melling, Hugo vs Freeman, Luke | Round 1: Melling, Hugo - Freeman, Luke
+042 | middlegame | 2026.08.02 | Krych, Dominik vs Kumor, Artur | Memoria? Adolfa Anderssena - OPEN B 2026
+043 | middlegame | 2026.08.03 | Turunz, Dilek vs Kose, Ulya | Round 1: Turunz, Dilek - Kose, Ulya
+044 | endgame    | 2026.08.01 | Narayanan, Samrug vs Andersen, Mads | Granada Chess Open 26
+045 | endgame    | 2026.08.01 | Undale Shravni vs Nirgun Keval | Round 5: Undale Shravni - Nirgun Keval
+046 | endgame    | 2026.08.05 | Raj Van den Brink vs Barbier, Sarah | Round 9: Raj Van den Brink - Barbier, Sarah
+047 | endgame    | 2026.08.01 | Lee, Yun Rui vs Shiva Shanmugam, Tharvin | Round 6: Lee, Yun Rui - Shiva Shanmugam, Tharvin
+048 | endgame    | 2026.08.01 | Lavrencic, Matic vs Smetana, Peter | European Youth Team Chess Championship - Open18
+049 | endgame    | 2026.08.01 | Diaz Guerrero, Jesus Daniel vs Sen, Samant Robert | Round 9: Diaz Guerrero, Jesus Daniel - Sen, Samant Robert
+050 | endgame    | 2026.08.02 | Nouri, Alekhine vs Nguyen My Hanh An | Round 9: Nouri, Alekhine - Nguyen My Hanh An
+051 | endgame    | 2026.08.03 | Nurgaliyeva, Zarina vs Kleymenova, Valeria | Round 3: Nurgaliyeva, Zarina - Kleymenova, Valeria
+052 | endgame    | 2026.08.04 | Slabaszewski, Lukasz vs Erdogan, Erdil | Memoria? Adolfa Anderssena - OPEN B 2026
+053 | middlegame | 2026.08.01 | Kowalczyk, Cyprian vs Patera, Michal | Memoria? Adolfa Anderssena 2026
+054 | endgame    | 2026.08.05 | Kot, Emanuel vs Kuandykuly, Danis | Round 5: Kot, Emanuel - Kuandykuly, Danis
+055 | endgame    | 2026.08.05 | Hyc, Franciszek vs Sliwko, Wiktor | Open-F
+056 | middlegame | 2026.08.02 | Jimenez Haneda, Naoki vs Vazquez Delgado, Jorge Enrique | Rapidas_jovenes
+057 | endgame    | 2026.08.01 | Rohit S vs Lindh, Fredrik | Granada Chess Open 26
+058 | middlegame | 2026.08.03 | Efemuai, Odafe Benedict vs ADEKOJO, Ayobami Idris | Round 4: Efemuai, Odafe Benedict - ADEKOJO, Ayobami Idris
+059 | middlegame | 2026.07.29 | Dimassi, Yasmine vs Assil Jandal | Round 8: Dimassi, Yasmine - Assil Jandal
+060 | endgame    | 2026.08.02 | Piesik, Piotr vs Zalega, Maciej | Mokate
+061 | middlegame | 2026.08.01 | Kokurewicz, Konrad vs Wilk, Aleksander | Memoria? Adolfa Anderssena 2026
+062 | middlegame | 2026.08.05 | Ozgur, Tibet Kagan vs Zeyrek, Ayaz | Round 3: Ozgur, Tibet Kagan - Zeyrek, Ayaz
+063 | middlegame | 2026.08.03 | Suleymanli, Suleyman vs Sanz Wawer, Daniel | Round 1: Suleymanli, Suleyman - Sanz Wawer, Daniel
+064 | middlegame | 2026.08.02 | Pason, Allan vs Chen, Ryo | Round 9: Pason, Allan - Chen, Ryo
+065 | opening    | 2026.08.04 | Ibrahimli, Murad vs Buyukasik, Diyap | Round 2: Ibrahimli, Murad - Buyukasik, Diyap
+066 | middlegame | 2026.08.01 | Kunapuli, Siddarth Sriaditya vs Lou, Alvin | Round 9: Kunapuli, Siddarth Sriaditya - Lou, Alvin
+067 | middlegame | 2026.08.01 | Bajarani, Ilgar vs Abd Aziz, A Qil A Lauddin | Round 9: Bajarani, Ilgar - Abd Aziz, A Qil A Lauddin
+068 | middlegame | 2026.08.04 | Bortnyk, Olexandr vs Fressinet, Laurent | 2026 Esports World Cup Last Chance Qualifier Group A
+069 | middlegame | 2026.08.01 | Aniket Bhuniya vs Dixit, Nikhil | Round 2: Aniket Bhuniya - Dixit, Nikhil
+070 | middlegame | 2026.08.01 | Psyk, Radoslaw vs Cosman, Andreea-Marioara | Round 3: Psyk, Radoslaw - Cosman, Andreea-Marioara
+071 | middlegame | 2026.08.02 | Elhusseiny, Eyad vs Abdin, Mahmoud | Round 7: Elhusseiny, Eyad - Abdin, Mahmoud
+072 | middlegame | 2026.08.01 | Nagare Akhilesh vs Avirat Chauhan | Round 5: Nagare Akhilesh - Avirat Chauhan
+073 | middlegame | 2026.08.05 | Pisarski, Marek vs Olsztynski, Andrzej | Open C
+074 | middlegame | 2026.08.02 | Kasinadhuni, Shivani vs Sharma, Gavin | Round 1: Kasinadhuni, Shivani - Sharma, Gavin
+075 | middlegame | 2026.08.03 | Cwiek, Mariusz vs Podzorski, Pawel | Open A
+076 | middlegame | 2026.08.02 | Ilinca, Felix-Antonio vs Ilamparthi A R | Round 1: Ilinca, Felix-Antonio - Ilamparthi A R
+077 | middlegame | 2026.08.03 | Ayan, Bengu Sena vs Rakhmangulova, Anastasiya | Round 1: Ayan, Bengu Sena - Rakhmangulova, Anastasiya
+078 | middlegame | 2026.08.05 | Mihokovic, Borna vs Petrus, Adrian | Round 9: Mihokovic, Borna - Petrus, Adrian
+079 | middlegame | 2026.08.04 | Zareba, Piotr vs Gbiorczyk, Mikolaj | anderssenA
+080 | middlegame | 2026.08.05 | Samunenkov, Ihor vs Mammadov, Zaur | Round 3: Samunenkov, Ihor - Mammadov, Zaur
+081 | middlegame | 2026.07.25 | Dorokhin, Mykhailo vs Ten Hertog, Hugo | Round 1: Dorokhin, Mykhailo - Ten Hertog, Hugo
+082 | middlegame | 2026.08.05 | Liang, Awonder vs Van Foreest, Jorden | Saint Louis Rapid & Blitz
+083 | middlegame | 2026.08.02 | Rusan, Paul-Cristian vs Filip, Andrei | Round 8: Rusan, Paul-Cristian - Filip, Andrei
+084 | middlegame | 2026.08.02 | Masternak, Grzegorz vs Niec, Ignacy | Mokate
+085 | middlegame | 2026.08.02 | Wasiluk, Mateusz vs Kadzinski, Wieslaw | Open A
+086 | middlegame | 2026.08.05 | Gonzalez Arroyo, Lenin vs Quesada Perez, Luis Ernesto | Ronda 1: Gonzalez Arroyo, Lenin - Quesada Perez, Luis Ernesto
+087 | opening    | 2026.08.01 | Lieke Koolaard vs Dylan Verheul | Round 5: Lieke Koolaard - Dylan Verheul
+088 | middlegame | 2026.08.03 | Jermy, Jaden vs Majeed, Haroon | Round 3: Jermy, Jaden - Majeed, Haroon
+089 | middlegame | 2026.08.04 | Yilmaz, Kerem Tuna vs Zeyrek, Ayaz | Round 2: Yilmaz, Kerem Tuna - Zeyrek, Ayaz
+090 | middlegame | 2026.08.05 | Li Chen, Helena Joana vs Ortega Sanchez Montanez, Marcos | Round 4: Li Chen, Helena Joana - Ortega Sanchez Montanez, Marcos
+091 | middlegame | 2026.08.02 | Chubar, Vladimir vs Matoga, Michal | Mokate
+092 | opening    | 2026.08.01 | Lacruz Ramirez, Matias Alejandro vs Chocala, Thiago Ignacio | Round 9: Lacruz Ramirez, Matias Alejandro - Chocala, Thiago Ignacio
+093 | opening    | 2026.08.01 | Cuenca Jimenez, Jose Fernando vs Panelo, Marcelo | II Open Internacional Ciudad de Vitoria-Gasteiz
+094 | opening    | 2026.08.02 | Dhingra, Kanvansh vs Van Neerven, Yvon | Round 2: Dhingra, Kanvansh - Van Neerven, Yvon
+095 | opening    | 2026.08.05 | Lim, Zhuo Ren vs Chow, Yi Chen | Round 9: Lim, Zhuo Ren - Chow, Yi Chen
+096 | opening    | 2026.08.01 | Corvi, Marco vs Caprio, Guido | Round 3: Corvi, Marco - Caprio, Guido
+097 | opening    | 2026.08.02 | Kurtovic, Darko vs Mrkic, Simun | Round 5: Kurtovic, Darko - Mrkic, Simun
+098 | opening    | 2026.08.03 | Niemczyk, Wiktor vs Stefanowicz, Piotr | Open C
+099 | opening    | 2026.08.05 | Abed, Rashid vs Sintsov, Roman | Round 4: Abed, Rashid - Sintsov, Roman
+100 | opening    | 2026.08.01 | Li, Cheng vs Wong, Man Hei Alvin | Bauhinia Summer Chess Open 2026
