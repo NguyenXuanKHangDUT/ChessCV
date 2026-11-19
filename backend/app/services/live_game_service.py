@@ -104,6 +104,12 @@ class LiveGameService:
         self._clean_checker_baseline: float | None = None
         self._moving_until = 0.0
 
+        self._illegal_candidate_key: str | None = None
+        self._illegal_candidate_count = 0
+        self._last_illegal_event_key: str | None = None
+        self._illegal_event_id = 0
+        self.illegal_move_event: dict | None = None
+
         self.pending_bot_move: dict | None = None
 
     def _validate_setup(
@@ -155,6 +161,81 @@ class LiveGameService:
         self._candidate_uci = None
         self._candidate_count = 0
 
+    def _clear_illegal_candidate(self):
+        self._illegal_candidate_key = None
+        self._illegal_candidate_count = 0
+
+    def _clear_illegal_move_state(self):
+        self._clear_illegal_candidate()
+        self._last_illegal_event_key = None
+        self.illegal_move_event = None
+
+    # ========================================================
+    # ILLEGAL MOVE CONFIRMATION
+    # ========================================================
+
+    def _handle_illegal_move(self, illegal_move: dict):
+
+        key = ":".join((
+            str(illegal_move.get("uci", "")),
+            str(illegal_move.get("color", "")),
+            str(illegal_move.get("piece_type", "")),
+            str(illegal_move.get("move_kind", "")),
+        ))
+
+        if self._illegal_candidate_key == key:
+            self._illegal_candidate_count += 1
+        else:
+            self._illegal_candidate_key = key
+            self._illegal_candidate_count = 1
+
+        color = str(illegal_move.get("color", "unknown")).title()
+        piece_type = str(illegal_move.get("piece_type", "piece")).title()
+        from_square = str(illegal_move.get("from_square", "?"))
+        to_square = str(illegal_move.get("to_square", "?"))
+
+        move_description = (
+            f"{color} {piece_type} from {from_square} to {to_square}"
+        )
+
+        if self._illegal_candidate_count < MOVE_CONFIRMATIONS:
+            self.status = "verifying_illegal_move"
+            self.status_message = (
+                f"Possible illegal move: {move_description}. "
+                "Verifying the physical board..."
+            )
+            return
+
+        if self._last_illegal_event_key != key:
+            self._illegal_event_id += 1
+            self._last_illegal_event_key = key
+
+            self.illegal_move_event = {
+                "event_id": self._illegal_event_id,
+                "uci": illegal_move.get("uci"),
+                "from_square": from_square,
+                "to_square": to_square,
+                "color": illegal_move.get("color"),
+                "piece_type": illegal_move.get("piece_type"),
+                "move_kind": illegal_move.get("move_kind"),
+                "promotion_piece": illegal_move.get("promotion_piece"),
+            }
+
+        extra = ""
+
+        if illegal_move.get("move_kind") == "promotion_required":
+            extra = " Promotion is required on the destination square."
+
+        self.status = "illegal_move"
+        self.status_message = (
+            f"Illegal move detected: {move_description}."
+            f"{extra} Restore the board to its previous position to continue."
+        )
+
+    # ========================================================
+    # THREAD
+    # ========================================================
+
     def _wait_for_old_thread(self):
         with self.lock:
             old_thread = self.thread
@@ -162,6 +243,10 @@ class LiveGameService:
         if old_thread is not None and old_thread.is_alive():
             self.stop_event.set()
             old_thread.join(timeout=3.0)
+
+    # ========================================================
+    # BOT COLOR
+    # ========================================================
 
     def _bot_chess_color(self) -> chess.Color | None:
         if self.bot_color == "white":
@@ -195,6 +280,10 @@ class LiveGameService:
             bot_color is not None
             and self.tracker.board.turn == bot_color
         )
+
+    # ========================================================
+    # PREPARE BOT MOVE
+    # ========================================================
 
     def _prepare_bot_move(self):
         if not self._is_bot_turn():
@@ -232,6 +321,10 @@ class LiveGameService:
         print("==========================================")
         print()
 
+    # ========================================================
+    # TRACK BOARD
+    # ========================================================
+
     def _track_board(
         self,
         frame: np.ndarray,
@@ -265,6 +358,10 @@ class LiveGameService:
 
         return board_points, outer_points
 
+    # ========================================================
+    # OCCUPANCY SIGNATURE
+    # ========================================================
+
     def _occupancy_signature(
         self,
         recognition: dict,
@@ -288,6 +385,10 @@ class LiveGameService:
             for left, right in zip(a, b)
             if left != right
         )
+
+    # ========================================================
+    # BUILD CONSENSUS
+    # ========================================================
 
     def _build_consensus(self) -> dict:
         observations = list(self._observations)
@@ -382,6 +483,10 @@ class LiveGameService:
             "squares": output_squares,
         }
 
+    # ========================================================
+    # OCCLUSION
+    # ========================================================
+
     def _foreign_object_present(self) -> bool:
         if (
             self._clean_checker_baseline is None
@@ -411,8 +516,13 @@ class LiveGameService:
             + self.board_checker_score * 0.1
         )
 
+    # ========================================================
+    # AFTER MOVE COMMIT
+    # ========================================================
+
     def _after_move_commit(self, san: str):
         self._clear_candidate()
+        self._clear_illegal_move_state()
         self._observations.clear()
         self._update_checker_baseline()
 
@@ -436,6 +546,10 @@ class LiveGameService:
         self.status_message = (
             f"Committed {san}. Waiting for {next_player}."
         )
+
+    # ========================================================
+    # HANDLE CONSENSUS
+    # ========================================================
 
     def _handle_consensus(self, consensus: dict):
         board_fen = consensus["board_fen"]
@@ -461,6 +575,7 @@ class LiveGameService:
             self._update_checker_baseline()
             self._observations.clear()
             self._clear_candidate()
+            self._clear_illegal_move_state()
             self.last_error = None
 
             if self._is_bot_turn():
@@ -488,8 +603,10 @@ class LiveGameService:
 
         self._current_position_check = current_check
 
+        # Physical board has returned to the expected position.
         if current_check["occupancy_mismatch_count"] == 0:
             self._clear_candidate()
+            self._clear_illegal_move_state()
             self._update_checker_baseline()
 
             if self.tracker.board.is_game_over(claim_draw=True):
@@ -538,6 +655,14 @@ class LiveGameService:
         if move is None:
             self._clear_candidate()
 
+            illegal_move = resolution.get("illegal_move")
+
+            if illegal_move is not None:
+                self._handle_illegal_move(illegal_move)
+                return
+
+            self._clear_illegal_candidate()
+
             if self._foreign_object_present():
                 self.status = "occluded"
                 self.status_message = (
@@ -553,6 +678,7 @@ class LiveGameService:
 
             return
 
+        self._clear_illegal_move_state()
         uci = move.uci()
 
         if self.pending_bot_move is not None:
@@ -612,6 +738,10 @@ class LiveGameService:
 
         self._after_move_commit(record["san"])
 
+    # ========================================================
+    # HANDLE RECOGNITION
+    # ========================================================
+
     def _handle_recognition(self, recognition: dict):
         signature = self._occupancy_signature(
             recognition
@@ -646,6 +776,7 @@ class LiveGameService:
             )
             self._observations.clear()
             self._clear_candidate()
+            self._clear_illegal_candidate()
             return
 
         if (
@@ -659,6 +790,7 @@ class LiveGameService:
             )
             self._observations.clear()
             self._clear_candidate()
+            self._clear_illegal_candidate()
             return
 
         self._observations.append(recognition)
@@ -688,6 +820,10 @@ class LiveGameService:
 
         consensus = self._build_consensus()
         self._handle_consensus(consensus)
+
+    # ========================================================
+    # START
+    # ========================================================
 
     def start(
         self,
@@ -820,6 +956,8 @@ class LiveGameService:
             self._previous_raw_signature = None
             self._last_recognition_at = 0.0
             self._clear_candidate()
+            self._clear_illegal_move_state()
+            self._illegal_event_id = 0
             self._last_resolution = None
             self._current_position_check = None
             self._clean_checker_baseline = checker_score
@@ -881,6 +1019,10 @@ class LiveGameService:
 
             return self.get_state()
 
+    # ========================================================
+    # STOP
+    # ========================================================
+
     def stop(self) -> dict:
         self.stop_event.set()
 
@@ -900,6 +1042,10 @@ class LiveGameService:
             self.status_message = "Live game is stopped."
 
             return self.get_state()
+
+    # ========================================================
+    # RUN LOOP
+    # ========================================================
 
     def _run_loop(self):
         while not self.stop_event.is_set():
@@ -962,6 +1108,10 @@ class LiveGameService:
 
         with self.lock:
             self.running = False
+
+    # ========================================================
+    # DEBUG OVERLAY
+    # ========================================================
 
     def draw_debug_overlay(
         self,
@@ -1231,6 +1381,10 @@ class LiveGameService:
 
         return output
 
+    # ========================================================
+    # STATE
+    # ========================================================
+
     def get_state(self) -> dict:
         with self.lock:
             game_state = self.tracker.get_state()
@@ -1250,6 +1404,11 @@ class LiveGameService:
                 "bot_color": self.bot_color,
                 "started_at": self.started_at,
                 "pending_bot_move": self.pending_bot_move,
+                "illegal_move_event": (
+                    None
+                    if self.illegal_move_event is None
+                    else dict(self.illegal_move_event)
+                ),
                 "tracking_shift_px": self.tracking_shift_px,
                 "observation_change_count":
                     self.observation_change_count,

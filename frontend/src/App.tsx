@@ -1,5 +1,15 @@
-import { useState } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import {
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import UploadPositionPage from "./pages/UploadPositionPage";
@@ -10,11 +20,29 @@ import PlayerStatsPage from "./pages/PlayerStatsPage";
 import FixedCalibrationPage from "./pages/FixedCalibrationPage";
 import ImportPgnPage from "./pages/ImportPgnPage";
 
+import {
+  LanguageProvider,
+  LanguageSwitcher,
+  observeTranslatedContent,
+  useLanguage,
+} from "./i18n/LanguageContext";
+
 import "./App.css";
 
-type NavigationIcon = "home" | "position" | "live" | "games" | "import" | "calibration";
+type NavigationIcon =
+  | "home"
+  | "position"
+  | "live"
+  | "games"
+  | "import"
+  | "calibration";
 
-function NavIcon({ name }: { name: NavigationIcon }) {
+function NavIcon({
+  name,
+}: {
+  name: NavigationIcon;
+}) {
+
   const shared = {
     width: 21,
     height: 21,
@@ -28,18 +56,62 @@ function NavIcon({ name }: { name: NavigationIcon }) {
   };
 
   switch (name) {
+
     case "home":
-      return <svg {...shared}><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M9 21v-8h6v8"/></svg>;
+
+      return (
+        <svg {...shared}>
+          <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/>
+          <path d="M9 21v-8h6v8"/>
+        </svg>
+      );
+
     case "position":
-      return <svg {...shared}><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>;
+
+      return (
+        <svg {...shared}>
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M12 3v18M3 12h18"/>
+        </svg>
+      );
+
     case "live":
-      return <svg {...shared}><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4Z"/></svg>;
+
+      return (
+        <svg {...shared}>
+          <circle cx="12" cy="12" r="9"/>
+          <path d="m10 8 6 4-6 4Z"/>
+        </svg>
+      );
+
     case "games":
-      return <svg {...shared}><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>;
+
+      return (
+        <svg {...shared}>
+          <rect x="5" y="3" width="14" height="18" rx="1"/>
+          <path d="M9 8h6M9 12h6M9 16h4"/>
+        </svg>
+      );
+
     case "import":
-      return <svg {...shared}><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/><path d="M7 3H5a1 1 0 0 0-1 1v8"/></svg>;
+
+      return (
+        <svg {...shared}>
+          <path d="M12 3v12m-4-4 4 4 4-4"/>
+          <path d="M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/>
+          <path d="M7 3H5a1 1 0 0 0-1 1v8"/>
+        </svg>
+      );
+
     case "calibration":
-      return <svg {...shared}><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3"/><path d="M10 10h4v4h-4z"/></svg>;
+
+      return (
+        <svg {...shared}>
+          <rect x="6" y="6" width="12" height="12" rx="1"/>
+          <path d="M9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3"/>
+          <path d="M10 10h4v4h-4z"/>
+        </svg>
+      );
   }
 }
 
@@ -49,67 +121,325 @@ const NAV_ITEMS: ReadonlyArray<{
   icon: NavigationIcon;
   end?: boolean;
 }> = [
-  { path: "/", label: "Home", icon: "home", end: true },
-  { path: "/position", label: "Position", icon: "position" },
-  { path: "/live", label: "Live", icon: "live" },
-  { path: "/games", label: "Games", icon: "games" },
-  { path: "/import-pgn", label: "Import PGN", icon: "import" },
-  { path: "/calibration", label: "Calibration", icon: "calibration" },
+
+  {
+    path: "/",
+    label: "Home",
+    icon: "home",
+    end: true,
+  },
+
+  {
+    path: "/position",
+    label: "Position",
+    icon: "position",
+  },
+
+  {
+    path: "/live",
+    label: "Live",
+    icon: "live",
+  },
+
+  {
+    path: "/games",
+    label: "Games",
+    icon: "games",
+  },
+
+  {
+    path: "/import-pgn",
+    label: "Import PGN",
+    icon: "import",
+  },
+
+  {
+    path: "/calibration",
+    label: "Calibration",
+    icon: "calibration",
+  },
 ];
 
-export default function App() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+// ============================================================
+// APPLICATION SHELL
+// ============================================================
+
+function AppShell() {
+
+  const [sidebarCollapsed, setSidebarCollapsed] =
+    useState(false);
+
+  const {
+    language,
+    t,
+  } = useLanguage();
+
+  const location = useLocation();
+
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  // ==========================================================
+  // GLOBAL PAGE TRANSLATION
+  // ==========================================================
+
+  useEffect(() => {
+
+    const main = mainRef.current;
+
+    if (!main) {
+      return;
+    }
+
+    return observeTranslatedContent(
+      main,
+      language,
+    );
+
+  }, [language]);
+
+  // ==========================================================
+  // SYNC LIVE GAME VOICE WITH GLOBAL LANGUAGE
+  //
+  // Keep the existing LiveGamePage TTS implementation.
+  // The old local selector is hidden by App.css.
+  // This synchronizes its internal voice state with
+  // the language selected in the sidebar.
+  // ==========================================================
+
+  useEffect(() => {
+
+    if (location.pathname !== "/live") {
+      return;
+    }
+
+    const selector =
+      language === "vi"
+        ? 'button[aria-label="Đọc nước đi bằng tiếng Việt"]'
+        : 'button[aria-label="Speak moves in English"]';
+
+    const frame = window.requestAnimationFrame(() => {
+
+      const voiceButton =
+        mainRef.current?.querySelector<HTMLButtonElement>(
+          selector,
+        );
+
+      voiceButton?.click();
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+
+  }, [
+    language,
+    location.pathname,
+  ]);
+
+  // ==========================================================
+  // RENDER
+  // ==========================================================
 
   return (
-    <div className={`app chesscv-shell${sidebarCollapsed ? " sidebar-collapsed" : ""}`}>
-      <aside className="chesscv-sidebar" aria-label="Main navigation">
+
+    <div
+      className={
+        `app chesscv-shell${sidebarCollapsed ? " sidebar-collapsed" : ""}`
+      }
+    >
+
+      {/* ======================================================
+          SIDEBAR
+      ====================================================== */}
+
+      <aside
+        className="chesscv-sidebar"
+        aria-label={t("Main navigation")}
+      >
+
+        {/* HEADER */}
+
         <div className="chesscv-sidebar-header">
+
           <button
             type="button"
             className="chesscv-sidebar-toggle"
-            onClick={() => setSidebarCollapsed((value) => !value)}
-            aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+
+            onClick={() =>
+              setSidebarCollapsed((value) => !value)
+            }
+
+            aria-label={
+              t(
+                sidebarCollapsed
+                  ? "Expand sidebar"
+                  : "Collapse sidebar",
+              )
+            }
+
             aria-expanded={!sidebarCollapsed}
-            title={sidebarCollapsed ? "Expand menu" : "Collapse menu"}
+
+            title={
+              t(
+                sidebarCollapsed
+                  ? "Expand menu"
+                  : "Collapse menu",
+              )
+            }
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
               <path d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
+
           </button>
-          {!sidebarCollapsed && <span className="chesscv-brand">ChessCV</span>}
+
+          {!sidebarCollapsed && (
+            <span className="chesscv-brand">
+              ChessCV
+            </span>
+          )}
+
         </div>
 
-        <nav className="chesscv-sidebar-nav" aria-label="Pages">
+        {/* NAVIGATION */}
+
+        <nav
+          className="chesscv-sidebar-nav"
+          aria-label={t("Pages")}
+        >
+
           {NAV_ITEMS.map((item) => (
+
             <NavLink
               key={item.path}
               to={item.path}
               end={item.end}
+
               className={({ isActive }) =>
                 `chesscv-nav-link${isActive ? " active" : ""}`
               }
-              title={sidebarCollapsed ? item.label : undefined}
-              aria-label={sidebarCollapsed ? item.label : undefined}
+
+              title={
+                sidebarCollapsed
+                  ? t(item.label)
+                  : undefined
+              }
+
+              aria-label={
+                sidebarCollapsed
+                  ? t(item.label)
+                  : undefined
+              }
             >
-              <NavIcon name={item.icon} />
-              {!sidebarCollapsed && <span>{item.label}</span>}
+
+              <NavIcon name={item.icon}/>
+
+              {!sidebarCollapsed && (
+                <span>
+                  {t(item.label)}
+                </span>
+              )}
+
             </NavLink>
+
           ))}
+
         </nav>
+
+        {/* GLOBAL LANGUAGE SWITCHER */}
+
+        <div className="chesscv-sidebar-footer">
+
+          <LanguageSwitcher
+            collapsed={sidebarCollapsed}
+          />
+
+        </div>
+
       </aside>
 
-      <main className="chesscv-main">
+      {/* ======================================================
+          MAIN CONTENT
+      ====================================================== */}
+
+      <main
+        ref={mainRef}
+        className="chesscv-main"
+      >
+
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/position" element={<UploadPositionPage />} />
-          <Route path="/live" element={<LiveGamePage />} />
-          <Route path="/games" element={<GamesPage />} />
-          <Route path="/games/:id" element={<GameDetailPage />} />
-          <Route path="/import-pgn" element={<ImportPgnPage />} />
-          <Route path="/calibration" element={<FixedCalibrationPage />} />
-          <Route path="/players/:id" element={<PlayerStatsPage />} />
+
+          <Route
+            path="/"
+            element={<HomePage/>}
+          />
+
+          <Route
+            path="/position"
+            element={<UploadPositionPage/>}
+          />
+
+          <Route
+            path="/live"
+            element={<LiveGamePage/>}
+          />
+
+          <Route
+            path="/games"
+            element={<GamesPage/>}
+          />
+
+          <Route
+            path="/games/:id"
+            element={<GameDetailPage/>}
+          />
+
+          <Route
+            path="/import-pgn"
+            element={<ImportPgnPage/>}
+          />
+
+          <Route
+            path="/calibration"
+            element={<FixedCalibrationPage/>}
+          />
+
+          <Route
+            path="/players/:id"
+            element={<PlayerStatsPage/>}
+          />
+
         </Routes>
+
       </main>
+
     </div>
+  );
+}
+
+// ============================================================
+// ROOT APP
+// ============================================================
+
+export default function App() {
+
+  return (
+
+    <LanguageProvider>
+
+      <AppShell/>
+
+    </LanguageProvider>
+
   );
 }

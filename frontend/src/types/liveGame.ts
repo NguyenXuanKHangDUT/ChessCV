@@ -50,6 +50,18 @@ export interface PendingBotMove {
 }
 
 
+export interface IllegalMoveEvent {
+  event_id: number;
+  uci: string;
+  from_square: string;
+  to_square: string;
+  color: "white" | "black";
+  piece_type: "pawn" | "knight" | "bishop" | "rook" | "queen" | "king";
+  move_kind: string;
+  promotion_piece: string | null;
+}
+
+
 export interface LiveGameStartRequest {
   white_name: string;
   black_name: string;
@@ -99,6 +111,10 @@ export interface LiveGameState {
 
   pending_bot_move:
     | PendingBotMove
+    | null;
+
+  illegal_move_event:
+    | IllegalMoveEvent
     | null;
 
   tracking_shift_px: number;

@@ -1,28 +1,29 @@
 /* ============================================================
    ChessCV application shell
-
-   The sidebar and main content are both GRID ITEMS here.
-   Older index.css rules may reserve space for a fixed sidebar.
-   Reset those rules on this shell to avoid a double offset.
-   ============================================================ */
+============================================================ */
 
 .app.chesscv-shell {
   display: grid;
-  grid-template-columns: 232px minmax(0, 1fr);
+
+  grid-template-columns:
+    232px minmax(0, 1fr);
 
   width: 100%;
   max-width: 100%;
+
   min-height: 100dvh;
 
   margin: 0;
 
   background: #111827;
 
-  transition: grid-template-columns 160ms ease;
+  transition:
+    grid-template-columns 160ms ease;
 }
 
 .app.chesscv-shell.sidebar-collapsed {
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns:
+    76px minmax(0, 1fr);
 }
 
 /* ============================================================
@@ -35,6 +36,9 @@
   grid-column: 1;
 
   top: 0;
+
+  display: flex;
+  flex-direction: column;
 
   height: 100dvh;
   min-width: 0;
@@ -66,6 +70,8 @@
   gap: 13px;
 
   margin-bottom: 38px;
+
+  flex-shrink: 0;
 }
 
 .chesscv-sidebar-toggle {
@@ -111,6 +117,8 @@
   align-items: stretch;
 
   gap: 8px;
+
+  flex: 1 0 auto;
 }
 
 .chesscv-sidebar-nav > .chesscv-nav-link {
@@ -156,6 +164,109 @@
 }
 
 /* ============================================================
+   SIDEBAR FOOTER
+   Always visible at the bottom of the sidebar.
+============================================================ */
+
+.chesscv-sidebar-footer {
+  position: sticky;
+
+  bottom: 0;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  margin-top: auto;
+
+  padding-top: 14px;
+
+  border-top: 1px solid #36465c;
+
+  background: #1f2937;
+
+  z-index: 20;
+}
+
+/* ============================================================
+   GLOBAL LANGUAGE SWITCHER
+============================================================ */
+
+.chesscv-language-switcher {
+  display: flex;
+
+  align-items: center;
+
+  gap: 3px;
+
+  width: 110px;
+  max-width: 100%;
+
+  padding: 4px;
+
+  border: 1px solid #475c75;
+
+  border-radius: 12px;
+
+  background: #111c2b;
+
+  box-sizing: border-box;
+}
+
+.chesscv-language-switcher button {
+  flex: 1 1 0;
+
+  min-width: 0;
+
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 7px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #9caec3;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    opacity 140ms ease;
+}
+
+.chesscv-language-switcher button:hover:not(.active) {
+  background: #26364b;
+
+  color: #e5edf7;
+}
+
+.chesscv-language-switcher button.active {
+  background: #3b82f6;
+
+  color: #ffffff;
+}
+
+.chesscv-language-switcher button:focus-visible {
+  outline: 2px solid #93c5fd;
+
+  outline-offset: 2px;
+}
+
+/* ============================================================
    COLLAPSED SIDEBAR
 ============================================================ */
 
@@ -167,21 +278,51 @@
 .chesscv-shell.sidebar-collapsed
 .chesscv-sidebar-nav > .chesscv-nav-link {
   justify-content: center;
+
   padding: 0;
+}
+
+/* Keep EN / VI visible even when sidebar is collapsed. */
+
+.chesscv-shell.sidebar-collapsed
+.chesscv-sidebar-footer {
+  justify-content: center;
+}
+
+.chesscv-shell.sidebar-collapsed
+.chesscv-language-switcher {
+  width: 52px;
+
+  gap: 2px;
+
+  padding: 3px;
+
+  border-radius: 10px;
+}
+
+.chesscv-shell.sidebar-collapsed
+.chesscv-language-switcher button {
+  height: 29px;
+
+  padding: 0 1px;
+
+  font-size: 10px;
+
+  border-radius: 7px;
+}
+
+/* ============================================================
+   REMOVE OLD LIVE GAME LANGUAGE SWITCHER
+   The global sidebar switcher now controls it.
+============================================================ */
+
+.live-game-page .live-header
+[role="group"][aria-label="Move voice language"] {
+  display: none !important;
 }
 
 /* ============================================================
    MAIN CONTENT
-
-   FIX:
-   The GRID already reserves the sidebar's width.
-
-   Override earlier .app > main rules that used:
-   - margin-left
-   - width: calc(...)
-   - positioning for the old fixed sidebar
-
-   Otherwise main content gets shifted twice.
 ============================================================ */
 
 .app.chesscv-shell > main.chesscv-main {
@@ -218,9 +359,6 @@
 
 /* ============================================================
    INNER PAGES
-
-   Pages must be able to shrink to the available width
-   instead of forcing the entire app to overflow.
 ============================================================ */
 
 .app.chesscv-shell > main.chesscv-main > .page {
@@ -233,9 +371,11 @@
 ============================================================ */
 
 @media (max-width: 750px) {
+
   .app.chesscv-shell,
   .app.chesscv-shell.sidebar-collapsed {
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns:
+      64px minmax(0, 1fr);
   }
 
   .app.chesscv-shell > aside.chesscv-sidebar,
@@ -267,6 +407,34 @@
     min-height: 48px;
 
     padding: 0;
+  }
+
+  /* Language switcher remains visible in mobile sidebar. */
+
+  .chesscv-sidebar-footer {
+    justify-content: center;
+
+    padding-top: 12px;
+  }
+
+  .chesscv-language-switcher,
+  .chesscv-shell.sidebar-collapsed
+  .chesscv-language-switcher {
+    width: 50px;
+
+    gap: 2px;
+
+    padding: 3px;
+  }
+
+  .chesscv-language-switcher button,
+  .chesscv-shell.sidebar-collapsed
+  .chesscv-language-switcher button {
+    height: 27px;
+
+    padding: 0 1px;
+
+    font-size: 9px;
   }
 
   .app.chesscv-shell > main.chesscv-main {
