@@ -16,11 +16,10 @@ import LiveChessBoard from "../components/chess/LiveChessBoard";
 import {
   playNeuralSpeech,
   stopNeuralSpeech,
+  prepareOfflineSpeech,
 } from "../services/chessAudio";
 
-import {
-  useLanguage,
-} from "../i18n/LanguageContext";
+import { useLanguage } from "../i18n/LanguageContext";
 
 import type {
   BotType,
@@ -37,13 +36,7 @@ import type {
 
 import "./LiveGamePage.css";
 
-// ============================================================
-// UI BOT CATALOG
-// All three bots are supported by the backend.
-// ============================================================
-
 type BotSelection = BotType;
-
 type SpeechLanguage = "en" | "vi";
 
 const BOT_OPTIONS: ReadonlyArray<{
@@ -79,10 +72,6 @@ const BOT_OPTIONS: ReadonlyArray<{
 const PREVIEW_START_FEN =
   "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-// ============================================================
-// MOVE ROW / PGN RESULT
-// ============================================================
-
 interface MoveRow {
   moveNumber: number;
   white: LiveMove | null;
@@ -115,10 +104,7 @@ function buildMoveRows(moves: LiveMove[]): MoveRow[] {
   return Array.from(rows.values());
 }
 
-function applyResultToPgn(
-  pgn: string,
-  result: string,
-): string {
+function applyResultToPgn(pgn: string, result: string): string {
   if (!pgn || result === "*") {
     return pgn;
   }
@@ -137,21 +123,10 @@ function applyResultToPgn(
 }
 
 // ============================================================
-// CHESS MOVE VOICE: ENGLISH + VIETNAMESE
+// EN/VI PHRASE CONSTRUCTION
 //
-// The voice language comes from the global LanguageContext.
-//
-// Sidebar EN:
-// - English interface
-// - English move announcements
-// - English illegal-move warnings
-//
-// Sidebar VI:
-// - Vietnamese interface
-// - Vietnamese move announcements
-// - Vietnamese illegal-move warnings
-//
-// All audio uses the same neural TTS pipeline.
+// The fixed offline library contains all pieces, squares and
+// chess actions below. No real-time TTS is needed.
 // ============================================================
 
 const PIECE_SPEECH_NAMES: Record<
@@ -166,7 +141,6 @@ const PIECE_SPEECH_NAMES: Record<
     N: "Knight",
     P: "pawn",
   },
-
   vi: {
     K: "Vua",
     Q: "Hậu",
@@ -191,7 +165,6 @@ const RANK_SPEECH_NAMES: Record<
     "7": "seven",
     "8": "eight",
   },
-
   vi: {
     "1": "một",
     "2": "hai",
@@ -222,8 +195,7 @@ function squarePartToSpeech(
   return value
     .split("")
     .map((character) => {
-      const rank =
-        RANK_SPEECH_NAMES[language][character];
+      const rank = RANK_SPEECH_NAMES[language][character];
 
       if (rank) {
         return rank;
@@ -231,9 +203,8 @@ function squarePartToSpeech(
 
       if (language === "vi") {
         return (
-          VI_FILE_SPEECH_NAMES[
-            character.toLowerCase()
-          ] ?? character.toLowerCase()
+          VI_FILE_SPEECH_NAMES[character.toLowerCase()] ??
+          character.toLowerCase()
         );
       }
 
@@ -241,19 +212,6 @@ function squarePartToSpeech(
     })
     .join(" ");
 }
-
-// ============================================================
-// SAN -> SPOKEN ANNOUNCEMENT
-//
-// Handles:
-// - Ordinary moves
-// - Disambiguation
-// - Captures
-// - Castling
-// - Promotions
-// - Check
-// - Checkmate
-// ============================================================
 
 function chessMoveToSpeech(
   san: string,
@@ -263,22 +221,21 @@ function chessMoveToSpeech(
   const isVietnamese = language === "vi";
 
   const player = isVietnamese
-    ? (color === "white" ? "Trắng" : "Đen")
-    : (color === "white" ? "White" : "Black");
+    ? color === "white"
+      ? "Trắng"
+      : "Đen"
+    : color === "white"
+      ? "White"
+      : "Black";
 
-  const cleaned = san
-    .trim()
-    .replace(/[!?]+$/g, "");
+  const cleaned = san.trim().replace(/[!?]+$/g, "");
 
   if (!cleaned) {
     return "";
   }
 
   const isCheckmate = cleaned.includes("#");
-
-  const isCheck =
-    cleaned.includes("+") && !isCheckmate;
-
+  const isCheck = cleaned.includes("+") && !isCheckmate;
   const move = cleaned.replace(/[+#]+$/g, "");
 
   let spokenMove = "";
@@ -287,10 +244,7 @@ function chessMoveToSpeech(
     spokenMove = isVietnamese
       ? `${player} nhập thành cánh vua`
       : `${player} castles kingside`;
-  } else if (
-    move === "O-O-O" ||
-    move === "0-0-0"
-  ) {
+  } else if (move === "O-O-O" || move === "0-0-0") {
     spokenMove = isVietnamese
       ? `${player} nhập thành cánh hậu`
       : `${player} castles queenside`;
@@ -315,12 +269,10 @@ function chessMoveToSpeech(
       return `${player} ${move}`;
     }
 
-    const destinationText =
-      squarePartToSpeech(
-        destinationMatch[1] +
-          destinationMatch[2],
-        language,
-      );
+    const destinationText = squarePartToSpeech(
+      destinationMatch[1] + destinationMatch[2],
+      language,
+    );
 
     const promotedPiece = destinationMatch[3];
 
@@ -330,35 +282,26 @@ function chessMoveToSpeech(
     );
 
     const isCapture = prefix.includes("x");
-
     const fromHint = prefix.replace(/x/g, "");
 
     spokenMove = `${player} ${pieceName}`;
 
     if (fromHint) {
-      spokenMove += ` ${
-        isVietnamese ? "từ" : "from"
-      } ${
-        squarePartToSpeech(
-          fromHint,
-          language,
-        )
-      }`;
+      spokenMove += ` ${isVietnamese ? "từ" : "from"} ${squarePartToSpeech(
+        fromHint,
+        language,
+      )}`;
     }
 
     if (isCapture) {
-      spokenMove += ` ${
-        isVietnamese ? "ăn" : "takes"
-      } ${destinationText}`;
+      spokenMove += ` ${isVietnamese ? "ăn" : "takes"} ${destinationText}`;
     } else {
       spokenMove += ` ${destinationText}`;
     }
 
     if (promotedPiece) {
       const promotedName =
-        PIECE_SPEECH_NAMES[language][
-          promotedPiece
-        ];
+        PIECE_SPEECH_NAMES[language][promotedPiece];
 
       spokenMove += isVietnamese
         ? ` phong thành ${promotedName}`
@@ -367,27 +310,13 @@ function chessMoveToSpeech(
   }
 
   if (isCheckmate) {
-    spokenMove += isVietnamese
-      ? ", chiếu hết"
-      : ", checkmate";
+    spokenMove += isVietnamese ? ", chiếu hết" : ", checkmate";
   } else if (isCheck) {
-    spokenMove += isVietnamese
-      ? ", chiếu"
-      : ", check";
+    spokenMove += isVietnamese ? ", chiếu" : ", check";
   }
 
   return spokenMove;
 }
-
-// ============================================================
-// ILLEGAL MOVE -> SPOKEN ANNOUNCEMENT
-//
-// Announce the actual piece, color, source and destination.
-//
-// Example:
-// EN: Illegal move: White Knight from f3 to g5.
-// VI: Nước đi không hợp lệ: Mã trắng từ f3 đến g5.
-// ============================================================
 
 function illegalMoveToSpeech(
   event: IllegalMoveEvent,
@@ -406,9 +335,7 @@ function illegalMoveToSpeech(
   };
 
   const pieceName =
-    PIECE_SPEECH_NAMES[language][
-      pieceKeys[event.piece_type]
-    ];
+    PIECE_SPEECH_NAMES[language][pieceKeys[event.piece_type]];
 
   const fromSquare = squarePartToSpeech(
     event.from_square,
@@ -421,10 +348,7 @@ function illegalMoveToSpeech(
   );
 
   if (language === "vi") {
-    const colorName =
-      event.color === "white"
-        ? "trắng"
-        : "đen";
+    const colorName = event.color === "white" ? "trắng" : "đen";
 
     return (
       `Nước đi không hợp lệ: ${pieceName} ${colorName} ` +
@@ -432,10 +356,7 @@ function illegalMoveToSpeech(
     );
   }
 
-  const colorName =
-    event.color === "white"
-      ? "White"
-      : "Black";
+  const colorName = event.color === "white" ? "White" : "Black";
 
   return (
     `Illegal move: ${colorName} ${pieceName} ` +
@@ -444,30 +365,16 @@ function illegalMoveToSpeech(
 }
 
 // ============================================================
-// SHARED NEURAL AUDIO QUEUE
-//
-// Both EN and VI:
-// Edge TTS -> MP3 -> Audio Output Adapter
-//
-// Current output:
-// Laptop / Browser Audio
-//
-// Future output:
-// ESP32 / MAX98357A
+// AUDIO QUEUE / DUPLICATE PROTECTION
 // ============================================================
 
-let speechQueue: Promise<void> =
-  Promise.resolve();
-
+let speechQueue: Promise<void> = Promise.resolve();
 let speechController = new AbortController();
 
 function cancelChessSpeech(): void {
   speechController.abort();
-
   speechController = new AbortController();
-
   speechQueue = Promise.resolve();
-
   stopNeuralSpeech();
 }
 
@@ -488,11 +395,8 @@ function speakChessMove(
     }
 
     try {
-      await playNeuralSpeech(
-        text,
-        language,
-        signal,
-      );
+      // Despite the legacy name, this now plays ONLY fixed local MP3 clips.
+      await playNeuralSpeech(text, language, signal);
     } catch (error) {
       if (signal.aborted) {
         return;
@@ -503,24 +407,11 @@ function speakChessMove(
           ? error.message
           : "Move voice failed.";
 
-      console.warn(
-        "Chess voice unavailable:",
-        error,
-      );
-
+      console.warn("Chess voice unavailable:", error);
       onError(message);
     }
   });
 }
-
-// ============================================================
-// SPEECH TRACKING
-//
-// Prevent duplicate WebSocket announcements.
-//
-// The tracking state is independent of the selected language.
-// Changing EN / VI does not replay previous moves.
-// ============================================================
 
 interface SpeechTrackingState {
   initialized: boolean;
@@ -537,62 +428,31 @@ interface SpeechTrackingState {
 
 export default function LiveGamePage() {
   const navigate = useNavigate();
-
-  // ==========================================================
-  // GLOBAL LANGUAGE
-  //
-  // No local EN / VI state.
-  // The sidebar is the single source of truth.
-  // ==========================================================
-
   const { language } = useLanguage();
 
-  const speechLanguageRef =
-    useRef<SpeechLanguage>(language);
+  const speechLanguageRef = useRef<SpeechLanguage>(language);
 
-  // ==========================================================
-  // PAGE STATE
-  // ==========================================================
-
-  const [state, setState] =
-    useState<LiveGameState | null>(null);
-
-  const [whiteName, setWhiteName] =
-    useState("White");
-
-  const [blackName, setBlackName] =
-    useState("Black");
-
+  const [state, setState] = useState<LiveGameState | null>(null);
+  const [whiteName, setWhiteName] = useState("White");
+  const [blackName, setBlackName] = useState("Black");
   const [gameMode, setGameMode] =
     useState<GameMode>("human_vs_human");
-
   const [botType, setBotType] =
     useState<BotSelection>("beginner");
-
   const [humanColor, setHumanColor] =
     useState<HumanColor>("white");
-
   const [sideToMove, setSideToMove] =
     useState<SideToMove>("w");
 
-  const [
-    cameraOrientation,
-    setCameraOrientation,
-  ] = useState<CameraOrientation>(
-    "white_left",
-  );
+  const [cameraOrientation, setCameraOrientation] =
+    useState<CameraOrientation>("white_left");
 
   const [positionMode, setPositionMode] =
     useState<PositionMode>("standard");
 
-  const [manualResult, setManualResult] =
-    useState("*");
-
-  const [actionLoading, setActionLoading] =
-    useState(false);
-
-  const [saving, setSaving] =
-    useState(false);
+  const [manualResult, setManualResult] = useState("*");
+  const [actionLoading, setActionLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const [error, setError] =
     useState<string | null>(null);
@@ -600,129 +460,104 @@ export default function LiveGamePage() {
   const [voiceError, setVoiceError] =
     useState<string | null>(null);
 
-  const reconnectTimer =
-    useRef<number | null>(null);
+  const reconnectTimer = useRef<number | null>(null);
 
-  const speechTrackingRef =
-    useRef<SpeechTrackingState>({
-      initialized: false,
-      sessionKey: null,
-      lastSpokenPly: 0,
-      lastPendingBotKey: null,
-      lastIllegalMoveEventId: 0,
-      startRequested: false,
-    });
+  const speechTrackingRef = useRef<SpeechTrackingState>({
+    initialized: false,
+    sessionKey: null,
+    lastSpokenPly: 0,
+    lastPendingBotKey: null,
+    lastIllegalMoveEventId: 0,
+    startRequested: false,
+  });
 
-  // ==========================================================
-  // SYNCHRONIZE GLOBAL LANGUAGE WITH VOICE
-  //
-  // Runs whenever the sidebar language changes.
-  //
-  // - Cancel current audio if changing languages.
-  // - Keep move tracking counters unchanged.
-  // - Do not replay previous moves.
-  // - Next new move uses the selected language.
-  // ==========================================================
-
+  // Sidebar is the only EN/VI selector.
+  // Changing language never replays history.
   useEffect(() => {
-    if (speechLanguageRef.current === language) {
-      return;
+    if (speechLanguageRef.current !== language) {
+      cancelChessSpeech();
+      speechLanguageRef.current = language;
+      setVoiceError(null);
     }
 
-    cancelChessSpeech();
+    // Preload every MP3 for this language.
+    // Do not synthesize anything.
+    let disposed = false;
 
-    speechLanguageRef.current = language;
+    void prepareOfflineSpeech(language)
+      .then(() => {
+        if (!disposed) {
+          setVoiceError(null);
+        }
+      })
+      .catch((reason: unknown) => {
+        if (!disposed) {
+          setVoiceError(
+            reason instanceof Error
+              ? reason.message
+              : "Offline voice pack is unavailable.",
+          );
+        }
+      });
 
-    setVoiceError(null);
+    return () => {
+      disposed = true;
+    };
   }, [language]);
 
-  // ==========================================================
-  // ANNOUNCE NEW CHESS MOVES + ILLEGAL MOVES
-  // ==========================================================
-
-  function announceNewMoves(
-    nextState: LiveGameState,
-  ): void {
+  function announceNewMoves(nextState: LiveGameState): void {
     const tracking = speechTrackingRef.current;
-
-    const sessionKey =
-      nextState.started_at ?? "no-session";
+    const sessionKey = nextState.started_at ?? "no-session";
 
     const moves = nextState.moves ?? [];
 
     const latestPly = moves.reduce(
-      (maximum, move) =>
-        Math.max(maximum, move.ply),
+      (maximum, move) => Math.max(maximum, move.ply),
       0,
     );
 
     const pending = nextState.pending_bot_move;
-
-    const illegalMoveEvent =
-      nextState.illegal_move_event;
-
-    const illegalMoveEventId =
-      illegalMoveEvent?.event_id ?? 0;
+    const illegalMoveEvent = nextState.illegal_move_event;
+    const illegalMoveEventId = illegalMoveEvent?.event_id ?? 0;
 
     const pendingKey = pending
       ? `${sessionKey}:${latestPly}:${pending.uci}`
       : null;
 
-    // First state loaded on page open:
-    // do not read old move history.
-
     if (!tracking.initialized) {
       tracking.initialized = true;
-
       tracking.sessionKey = sessionKey;
 
-      tracking.lastSpokenPly =
-        tracking.startRequested
-          ? 0
-          : latestPly;
+      tracking.lastSpokenPly = tracking.startRequested
+        ? 0
+        : latestPly;
 
-      tracking.lastPendingBotKey =
-        tracking.startRequested
-          ? null
-          : pendingKey;
+      tracking.lastPendingBotKey = tracking.startRequested
+        ? null
+        : pendingKey;
 
-      tracking.lastIllegalMoveEventId =
-        tracking.startRequested
-          ? 0
-          : illegalMoveEventId;
+      tracking.lastIllegalMoveEventId = tracking.startRequested
+        ? 0
+        : illegalMoveEventId;
 
       if (!tracking.startRequested) {
         return;
       }
     }
 
-    // New game started from this page:
-    // announce its first moves when needed.
-    //
-    // A session started elsewhere:
-    // synchronize history without replaying it.
-
     if (tracking.sessionKey !== sessionKey) {
       const announceNewSession =
-        tracking.startRequested &&
-        nextState.running;
+        tracking.startRequested && nextState.running;
 
       tracking.sessionKey = sessionKey;
+      tracking.lastSpokenPly = announceNewSession ? 0 : latestPly;
+      tracking.lastPendingBotKey = announceNewSession
+        ? null
+        : pendingKey;
 
-      tracking.lastSpokenPly =
-        announceNewSession
-          ? 0
-          : latestPly;
-
-      tracking.lastPendingBotKey =
-        announceNewSession
-          ? null
-          : pendingKey;
-
-      tracking.lastIllegalMoveEventId =
-        announceNewSession
-          ? 0
-          : illegalMoveEventId;
+      tracking.lastIllegalMoveEventId = announceNewSession
+        ? 0
+        : illegalMoveEventId;
 
       tracking.startRequested = false;
 
@@ -731,20 +566,11 @@ export default function LiveGamePage() {
       }
     }
 
-    // ========================================================
-    // ILLEGAL MOVE ANNOUNCEMENT
-    //
-    // Each confirmed event is announced only once.
-    // Repeated WebSocket messages do not repeat the warning.
-    // ========================================================
-
     if (
       illegalMoveEvent &&
-      illegalMoveEvent.event_id >
-        tracking.lastIllegalMoveEventId
+      illegalMoveEvent.event_id > tracking.lastIllegalMoveEventId
     ) {
-      const currentLanguage =
-        speechLanguageRef.current;
+      const currentLanguage = speechLanguageRef.current;
 
       speakChessMove(
         illegalMoveToSpeech(
@@ -759,34 +585,23 @@ export default function LiveGamePage() {
         illegalMoveEvent.event_id;
     }
 
-    if (
-      latestPly <
-      tracking.lastSpokenPly
-    ) {
+    if (latestPly < tracking.lastSpokenPly) {
       tracking.lastSpokenPly = latestPly;
-
       tracking.lastPendingBotKey = pendingKey;
-
       return;
     }
 
-    const newMoves = moves.filter(
-      (move) =>
-        move.ply > tracking.lastSpokenPly,
-    );
-
-    for (const move of newMoves) {
+    for (
+      const move of moves.filter(
+        (item) => item.ply > tracking.lastSpokenPly,
+      )
+    ) {
       const isBotMove =
-        nextState.game_mode ===
-          "human_vs_bot" &&
+        nextState.game_mode === "human_vs_bot" &&
         nextState.bot_color === move.color;
 
-      // Bot moves are spoken from pending_bot_move.
-      // Do not repeat them when physically committed.
-
       if (!isBotMove) {
-        const currentLanguage =
-          speechLanguageRef.current;
+        const currentLanguage = speechLanguageRef.current;
 
         speakChessMove(
           chessMoveToSpeech(
@@ -802,18 +617,13 @@ export default function LiveGamePage() {
 
     tracking.lastSpokenPly = latestPly;
 
-    // ========================================================
-    // BOT ANNOUNCEMENT
-    // ========================================================
-
     if (
       nextState.game_mode === "human_vs_bot" &&
       pending &&
       pendingKey &&
       pendingKey !== tracking.lastPendingBotKey
     ) {
-      const currentLanguage =
-        speechLanguageRef.current;
+      const currentLanguage = speechLanguageRef.current;
 
       speakChessMove(
         chessMoveToSpeech(
@@ -841,7 +651,6 @@ export default function LiveGamePage() {
       .then((nextState) => {
         if (!disposed) {
           announceNewMoves(nextState);
-
           setState(nextState);
         }
       })
@@ -860,9 +669,7 @@ export default function LiveGamePage() {
         return;
       }
 
-      socket = new WebSocket(
-        LIVE_GAME_WS_URL,
-      );
+      socket = new WebSocket(LIVE_GAME_WS_URL);
 
       socket.onmessage = (event) => {
         try {
@@ -870,9 +677,7 @@ export default function LiveGamePage() {
             JSON.parse(event.data);
 
           announceNewMoves(nextState);
-
           setState(nextState);
-
           setError(null);
         } catch {
           setError(
@@ -884,10 +689,7 @@ export default function LiveGamePage() {
       socket.onclose = () => {
         if (!disposed) {
           reconnectTimer.current =
-            window.setTimeout(
-              connect,
-              1000,
-            );
+            window.setTimeout(connect, 1000);
         }
       };
 
@@ -902,15 +704,11 @@ export default function LiveGamePage() {
       disposed = true;
 
       if (reconnectTimer.current !== null) {
-        window.clearTimeout(
-          reconnectTimer.current,
-        );
-
+        window.clearTimeout(reconnectTimer.current);
         reconnectTimer.current = null;
       }
 
       socket?.close();
-
       cancelChessSpeech();
     };
   }, []);
@@ -933,12 +731,7 @@ export default function LiveGamePage() {
     }
 
     return whiteName.trim() || "White";
-  }, [
-    gameMode,
-    humanColor,
-    selectedBotName,
-    whiteName,
-  ]);
+  }, [gameMode, humanColor, selectedBotName, whiteName]);
 
   const effectiveBlackName = useMemo(() => {
     if (
@@ -949,12 +742,7 @@ export default function LiveGamePage() {
     }
 
     return blackName.trim() || "Black";
-  }, [
-    gameMode,
-    humanColor,
-    selectedBotName,
-    blackName,
-  ]);
+  }, [gameMode, humanColor, selectedBotName, blackName]);
 
   const moveRows = useMemo(
     () => buildMoveRows(state?.moves ?? []),
@@ -978,9 +766,7 @@ export default function LiveGamePage() {
     }
   }
 
-  function handleBotTypeChange(
-    bot: BotSelection,
-  ) {
+  function handleBotTypeChange(bot: BotSelection) {
     setBotType(bot);
   }
 
@@ -989,10 +775,7 @@ export default function LiveGamePage() {
   ) {
     const value = event.target.value;
 
-    if (
-      value === "white" ||
-      value === "black"
-    ) {
+    if (value === "white" || value === "black") {
       setHumanColor(value);
     }
   }
@@ -1002,10 +785,7 @@ export default function LiveGamePage() {
   ) {
     const value = event.target.value;
 
-    if (
-      value === "w" ||
-      value === "b"
-    ) {
+    if (value === "w" || value === "b") {
       setSideToMove(value);
     }
   }
@@ -1029,52 +809,46 @@ export default function LiveGamePage() {
 
   async function handleStart() {
     setError(null);
-
+    setVoiceError(null);
     setActionLoading(true);
 
     const setup: LiveGameStartRequest = {
       white_name: effectiveWhiteName,
       black_name: effectiveBlackName,
-
       game_mode: gameMode,
       bot_type: botType,
-
       human_color:
         gameMode === "human_vs_bot"
           ? humanColor
           : null,
-
       side_to_move: sideToMove,
       camera_orientation: cameraOrientation,
       position_mode: positionMode,
     };
 
-    speechTrackingRef.current.startRequested =
-      true;
-
     cancelChessSpeech();
 
-    setVoiceError(null);
-
     try {
-      const nextState = await startLiveGame(
-        setup,
-      );
+      // Do not start a game with a missing or corrupt voice pack.
+      // Chrome's AudioContext was unlocked on pointerdown.
+      await prepareOfflineSpeech(speechLanguageRef.current);
+
+      speechTrackingRef.current.startRequested = true;
+
+      const nextState = await startLiveGame(setup);
 
       announceNewMoves(nextState);
-
       setState(nextState);
-
       setManualResult("*");
     } catch (requestError) {
-      speechTrackingRef.current.startRequested =
-        false;
+      speechTrackingRef.current.startRequested = false;
 
-      setError(
+      const message =
         requestError instanceof Error
           ? requestError.message
-          : "Could not start game.",
-      );
+          : "Could not start game or initialize offline audio.";
+
+      setError(message);
     } finally {
       setActionLoading(false);
     }
@@ -1086,15 +860,11 @@ export default function LiveGamePage() {
 
   async function handleStop() {
     cancelChessSpeech();
-
     setError(null);
-
     setActionLoading(true);
 
     try {
-      const nextState =
-        await stopLiveGame();
-
+      const nextState = await stopLiveGame();
       setState(nextState);
     } catch (requestError) {
       setError(
@@ -1109,9 +879,6 @@ export default function LiveGamePage() {
 
   // ==========================================================
   // END + SAVE
-  //
-  // initial_fen must remain a string.
-  // Capture it separately after checking for null.
   // ==========================================================
 
   async function handleEndAndSave() {
@@ -1123,12 +890,10 @@ export default function LiveGamePage() {
       setError(
         "Game position has not been initialized yet.",
       );
-
       return;
     }
 
     const initialFen = state.initial_fen;
-
     const snapshot = state;
 
     const result = snapshot.game_over
@@ -1136,9 +901,7 @@ export default function LiveGamePage() {
       : manualResult;
 
     cancelChessSpeech();
-
     setSaving(true);
-
     setError(null);
 
     try {
@@ -1148,28 +911,16 @@ export default function LiveGamePage() {
 
       await saveGame({
         white_name: snapshot.white_name,
-
         black_name: snapshot.black_name,
-
         initial_fen: initialFen,
-
         final_fen: snapshot.fen,
-
-        pgn: applyResultToPgn(
-          snapshot.pgn,
-          result,
-        ),
-
+        pgn: applyResultToPgn(snapshot.pgn, result),
         result,
-
         termination: snapshot.game_over
           ? "normal"
           : "manual",
-
         started_at: snapshot.started_at,
-
         ended_at: new Date().toISOString(),
-
         moves: snapshot.moves,
       });
 
@@ -1185,8 +936,7 @@ export default function LiveGamePage() {
     }
   }
 
-  const showSetup =
-    !state?.running && !saving;
+  const showSetup = !state?.running && !saving;
 
   // ==========================================================
   // RENDER
@@ -1194,12 +944,7 @@ export default function LiveGamePage() {
 
   return (
     <div className="page live-game-page">
-      {/* ======================================================
-          HEADER / GAME ACTIONS
-
-          The language selector is no longer rendered here.
-          Language selection lives in the global sidebar.
-      ====================================================== */}
+      {/* HEADER / GAME ACTIONS: EN/VI switch is in sidebar. */}
 
       <div className="live-header">
         <div>
@@ -1229,27 +974,14 @@ export default function LiveGamePage() {
                     ? state.result
                     : manualResult
                 }
-                disabled={
-                  state.game_over || saving
-                }
+                disabled={state.game_over || saving}
                 onChange={(event) =>
-                  setManualResult(
-                    event.target.value,
-                  )
+                  setManualResult(event.target.value)
                 }
               >
-                <option value="*">
-                  Result: *
-                </option>
-
-                <option value="1-0">
-                  Result: 1-0
-                </option>
-
-                <option value="0-1">
-                  Result: 0-1
-                </option>
-
+                <option value="*">Result: *</option>
+                <option value="1-0">Result: 1-0</option>
+                <option value="0-1">Result: 0-1</option>
                 <option value="1/2-1/2">
                   Result: 1/2-1/2
                 </option>
@@ -1258,9 +990,7 @@ export default function LiveGamePage() {
               <button
                 type="button"
                 className="secondary-button"
-                disabled={
-                  actionLoading || saving
-                }
+                disabled={actionLoading || saving}
                 onClick={handleStop}
               >
                 Stop
@@ -1269,15 +999,10 @@ export default function LiveGamePage() {
               <button
                 type="button"
                 className="primary-button"
-                disabled={
-                  saving ||
-                  !state.initialized
-                }
+                disabled={saving || !state.initialized}
                 onClick={handleEndAndSave}
               >
-                {saving
-                  ? "Saving..."
-                  : "End & Save"}
+                {saving ? "Saving..." : "End & Save"}
               </button>
             </div>
           )}
@@ -1299,9 +1024,7 @@ export default function LiveGamePage() {
         </div>
       )}
 
-      {/* ======================================================
-          GAME SETUP
-      ====================================================== */}
+      {/* GAME SETUP */}
 
       {showSetup && (
         <div className="live-setup-shell">
@@ -1321,10 +1044,7 @@ export default function LiveGamePage() {
 
               <div>
                 <small>Black</small>
-
-                <strong>
-                  {effectiveBlackName}
-                </strong>
+                <strong>{effectiveBlackName}</strong>
               </div>
             </div>
 
@@ -1347,10 +1067,7 @@ export default function LiveGamePage() {
 
               <div>
                 <small>White</small>
-
-                <strong>
-                  {effectiveWhiteName}
-                </strong>
+                <strong>{effectiveWhiteName}</strong>
               </div>
             </div>
 
@@ -1365,7 +1082,6 @@ export default function LiveGamePage() {
           <section className="live-setup-card">
             <div className="live-setup-title">
               <h2>Game Setup</h2>
-
               <p>
                 Configure the game before starting
                 the physical-board tracker.
@@ -1380,14 +1096,11 @@ export default function LiveGamePage() {
 
                 <select
                   value={gameMode}
-                  onChange={
-                    handleGameModeChange
-                  }
+                  onChange={handleGameModeChange}
                 >
                   <option value="human_vs_human">
                     Human vs Human
                   </option>
-
                   <option value="human_vs_bot">
                     Human vs Bot
                   </option>
@@ -1402,7 +1115,6 @@ export default function LiveGamePage() {
                     <span className="live-section-label">
                       Choose your opponent
                     </span>
-
                     <span className="live-bot-count">
                       3 bots
                     </span>
@@ -1418,22 +1130,16 @@ export default function LiveGamePage() {
                         key={bot.id}
                         type="button"
                         role="radio"
-                        aria-checked={
-                          botType === bot.id
-                        }
+                        aria-checked={botType === bot.id}
                         className={
                           botType === bot.id
                             ? "live-bot-option selected"
                             : "live-bot-option"
                         }
                         onClick={() =>
-                          handleBotTypeChange(
-                            bot.id,
-                          )
+                          handleBotTypeChange(bot.id)
                         }
                       >
-                        {/* DEFAULT AVATAR */}
-
                         <span
                           className="live-bot-avatar"
                           aria-hidden="true"
@@ -1449,7 +1155,6 @@ export default function LiveGamePage() {
                               r="9"
                               fill="currentColor"
                             />
-
                             <path
                               d="M7 43c0-10 7.6-17 17-17s17 7 17 17"
                               fill="currentColor"
@@ -1458,20 +1163,12 @@ export default function LiveGamePage() {
                         </span>
 
                         <span className="live-bot-meta">
-                          <strong>
-                            {bot.name}
-                          </strong>
-
-                          <small>
-                            {bot.description}
-                          </small>
+                          <strong>{bot.name}</strong>
+                          <small>{bot.description}</small>
                         </span>
 
                         <span className="live-bot-rank">
-                          <strong>
-                            {bot.rating}
-                          </strong>
-
+                          <strong>{bot.rating}</strong>
                           {!bot.available && (
                             <small>SOON</small>
                           )}
@@ -1487,20 +1184,12 @@ export default function LiveGamePage() {
               {gameMode === "human_vs_bot" && (
                 <label className="live-field">
                   <span>Your side</span>
-
                   <select
                     value={humanColor}
-                    onChange={
-                      handleHumanColorChange
-                    }
+                    onChange={handleHumanColorChange}
                   >
-                    <option value="white">
-                      White
-                    </option>
-
-                    <option value="black">
-                      Black
-                    </option>
+                    <option value="white">White</option>
+                    <option value="black">Black</option>
                   </select>
                 </label>
               )}
@@ -1509,19 +1198,15 @@ export default function LiveGamePage() {
 
               <label className="live-field">
                 <span>White</span>
-
                 <input
                   type="text"
                   value={effectiveWhiteName}
                   disabled={
-                    gameMode ===
-                      "human_vs_bot" &&
+                    gameMode === "human_vs_bot" &&
                     humanColor === "black"
                   }
                   onChange={(event) =>
-                    setWhiteName(
-                      event.target.value,
-                    )
+                    setWhiteName(event.target.value)
                   }
                 />
               </label>
@@ -1530,19 +1215,15 @@ export default function LiveGamePage() {
 
               <label className="live-field">
                 <span>Black</span>
-
                 <input
                   type="text"
                   value={effectiveBlackName}
                   disabled={
-                    gameMode ===
-                      "human_vs_bot" &&
+                    gameMode === "human_vs_bot" &&
                     humanColor === "white"
                   }
                   onChange={(event) =>
-                    setBlackName(
-                      event.target.value,
-                    )
+                    setBlackName(event.target.value)
                   }
                 />
               </label>
@@ -1551,40 +1232,26 @@ export default function LiveGamePage() {
 
               <label className="live-field">
                 <span>Side to move</span>
-
                 <select
                   value={sideToMove}
-                  onChange={
-                    handleSideToMoveChange
-                  }
+                  onChange={handleSideToMoveChange}
                 >
-                  <option value="w">
-                    White
-                  </option>
-
-                  <option value="b">
-                    Black
-                  </option>
+                  <option value="w">White</option>
+                  <option value="b">Black</option>
                 </select>
               </label>
 
               {/* CAMERA ORIENTATION */}
 
               <label className="live-field">
-                <span>
-                  Camera orientation
-                </span>
-
+                <span>Camera orientation</span>
                 <select
                   value={cameraOrientation}
-                  onChange={
-                    handleCameraOrientationChange
-                  }
+                  onChange={handleCameraOrientationChange}
                 >
                   <option value="white_left">
                     White left / Black right
                   </option>
-
                   <option value="black_left">
                     Black left / White right
                   </option>
@@ -1610,13 +1277,9 @@ export default function LiveGamePage() {
                   <input
                     type="radio"
                     name="position-mode"
-                    checked={
-                      positionMode === "standard"
-                    }
+                    checked={positionMode === "standard"}
                     onChange={() =>
-                      setPositionMode(
-                        "standard",
-                      )
+                      setPositionMode("standard")
                     }
                   />
 
@@ -1624,11 +1287,9 @@ export default function LiveGamePage() {
                     <strong>
                       Standard starting position
                     </strong>
-
                     <span>
-                      Start the digital board
-                      from the normal chess
-                      starting position.
+                      Start the digital board from the
+                      normal chess starting position.
                     </span>
                   </div>
                 </label>
@@ -1643,13 +1304,9 @@ export default function LiveGamePage() {
                   <input
                     type="radio"
                     name="position-mode"
-                    checked={
-                      positionMode === "detect"
-                    }
+                    checked={positionMode === "detect"}
                     onChange={() =>
-                      setPositionMode(
-                        "detect",
-                      )
+                      setPositionMode("detect")
                     }
                   />
 
@@ -1657,11 +1314,9 @@ export default function LiveGamePage() {
                     <strong>
                       Detect current position
                     </strong>
-
                     <span>
-                      Recognize the position
-                      currently visible on
-                      the physical board.
+                      Recognize the position currently
+                      visible on the physical board.
                     </span>
                   </div>
                 </label>
@@ -1672,67 +1327,45 @@ export default function LiveGamePage() {
 
             <div className="live-setup-footer">
               <div className="live-setup-match">
-                <strong>
-                  {effectiveWhiteName}
-                </strong>
-
+                <strong>{effectiveWhiteName}</strong>
                 <span>vs</span>
-
-                <strong>
-                  {effectiveBlackName}
-                </strong>
+                <strong>{effectiveBlackName}</strong>
               </div>
 
               <button
                 type="button"
-                className={
-                  "primary-button live-start-button"
-                }
+                className="primary-button live-start-button"
                 disabled={actionLoading}
                 onClick={handleStart}
               >
-                {actionLoading
-                  ? "Starting..."
-                  : "Start Game"}
+                {actionLoading ? "Starting..." : "Start Game"}
               </button>
             </div>
           </section>
         </div>
       )}
 
-      {/* ======================================================
-          ACTIVE GAME / PLAYER INFORMATION
-      ====================================================== */}
+      {/* ACTIVE GAME / PLAYER INFORMATION */}
 
       {state?.running && (
         <div className="live-match-card">
           <div className="live-player">
             <span>White</span>
-
-            <strong>
-              {state.white_name}
-            </strong>
+            <strong>{state.white_name}</strong>
           </div>
 
-          <div className="live-vs">
-            VS
-          </div>
+          <div className="live-vs">VS</div>
 
           <div className="live-player">
             <span>Black</span>
-
-            <strong>
-              {state.black_name}
-            </strong>
+            <strong>{state.black_name}</strong>
           </div>
 
           <div className="live-game-mode-badge">
             {state.game_mode === "human_vs_bot"
-              ? state.bot_type ===
-                "stockfish_2800"
+              ? state.bot_type === "stockfish_2800"
                 ? "Grandmaster Bot ~2800"
-                : state.bot_type ===
-                    "stockfish_1800"
+                : state.bot_type === "stockfish_1800"
                   ? "Stockfish Bot ~1800"
                   : "Beginner Bot ~800"
               : "Human vs Human"}
@@ -1740,9 +1373,7 @@ export default function LiveGamePage() {
         </div>
       )}
 
-      {/* ======================================================
-          LIVE STATUS
-      ====================================================== */}
+      {/* LIVE STATUS */}
 
       <div className="live-status-card">
         <div
@@ -1755,7 +1386,6 @@ export default function LiveGamePage() {
           <strong>
             {state?.status ?? "connecting"}
           </strong>
-
           <span>
             {state?.status_message ??
               "Connecting to backend..."}
@@ -1765,33 +1395,20 @@ export default function LiveGamePage() {
         {state && (
           <div className="live-status-metrics">
             <span>
-              Shift{" "}
-              {state.tracking_shift_px.toFixed(
-                1,
-              )}{" "}
-              px
+              Shift {state.tracking_shift_px.toFixed(1)} px
             </span>
-
             <span>
-              Changed{" "}
-              {
-                state.observation_change_count
-              }
+              Changed {state.observation_change_count}
             </span>
-
             <span>
               Checker{" "}
-              {state.board_checker_score?.toFixed(
-                2,
-              ) ?? "—"}
+              {state.board_checker_score?.toFixed(2) ?? "—"}
             </span>
           </div>
         )}
       </div>
 
-      {/* ======================================================
-          BOARD AREA
-      ====================================================== */}
+      {/* BOARD AREA */}
 
       <div className="live-board-layout">
         {/* PHYSICAL BOARD */}
@@ -1801,77 +1418,57 @@ export default function LiveGamePage() {
 
           <div className="physical-board-stream">
             <img
-              src={
-                LIVE_GAME_DEBUG_STREAM_URL
-              }
+              src={LIVE_GAME_DEBUG_STREAM_URL}
               alt="Physical chessboard"
             />
           </div>
 
           <div className="physical-help">
             <span>
-              Green grid = detected 8×8
-              board area.
+              Green grid = detected 8×8 board area.
             </span>
-
             <span>
-              Keep all physical squares
-              inside the grid.
+              Keep all physical squares inside the grid.
             </span>
 
             {state && (
               <span>
                 Camera:{" "}
-                {state.camera_orientation ===
-                "white_left"
+                {state.camera_orientation === "white_left"
                   ? "White left / Black right"
                   : "Black left / White right"}
               </span>
             )}
           </div>
 
-          {/* PENDING BOT MOVE
-              Below physical board
-          */}
+          {/* PENDING BOT MOVE - BELOW PHYSICAL BOARD */}
 
-          {state?.running &&
-            state.pending_bot_move && (
-              <div
-                className="bot-move-card"
-                style={{
-                  gridTemplateColumns:
-                    "minmax(0, 1fr)",
-                  gap: 10,
-                  marginTop: 16,
-                  marginBottom: 0,
-                }}
-              >
-                <div className="bot-move-info">
-                  <span>
-                    {
-                      state.pending_bot_move
-                        .name
-                    }{" "}
-                    move
-                  </span>
-
-                  <strong>
-                    {
-                      state.pending_bot_move
-                        .san
-                    }
-                  </strong>
-                </div>
-
-                <div className="bot-move-description">
-                  Move the bot&apos;s piece
-                  on the physical board
-                  according to this move.
-                  The system will verify
-                  it before continuing.
-                </div>
+          {state?.running && state.pending_bot_move && (
+            <div
+              className="bot-move-card"
+              style={{
+                gridTemplateColumns: "minmax(0, 1fr)",
+                gap: 10,
+                marginTop: 16,
+                marginBottom: 0,
+              }}
+            >
+              <div className="bot-move-info">
+                <span>
+                  {state.pending_bot_move.name} move
+                </span>
+                <strong>
+                  {state.pending_bot_move.san}
+                </strong>
               </div>
-            )}
+
+              <div className="bot-move-description">
+                Move the bot&apos;s piece on the
+                physical board according to this move.
+                The system will verify it before continuing.
+              </div>
+            </div>
+          )}
         </section>
 
         {/* DIGITAL BOARD */}
@@ -1880,9 +1477,7 @@ export default function LiveGamePage() {
           <h2>Digital board</h2>
 
           {state?.initialized ? (
-            <LiveChessBoard
-              fen={state.fen}
-            />
+            <LiveChessBoard fen={state.fen} />
           ) : (
             <div className="digital-board-waiting">
               <strong>
@@ -1890,8 +1485,7 @@ export default function LiveGamePage() {
               </strong>
 
               <span>
-                {state?.position_mode ===
-                "detect"
+                {state?.position_mode === "detect"
                   ? "Recognizing the current physical position..."
                   : "Start a game to load the board."}
               </span>
@@ -1901,17 +1495,14 @@ export default function LiveGamePage() {
           <div className="current-turn">
             Turn:{" "}
             <strong>
-              {state?.initialized
-                ? state.turn
-                : "—"}
+              {state?.initialized ? state.turn : "—"}
             </strong>
           </div>
 
           <div className="last-move">
             Last move:{" "}
             <strong>
-              {state?.last_move?.san ??
-                "—"}
+              {state?.last_move?.san ?? "—"}
             </strong>
           </div>
         </section>
@@ -1935,14 +1526,8 @@ export default function LiveGamePage() {
                   <span className="move-number">
                     {row.moveNumber}.
                   </span>
-
-                  <span>
-                    {row.white?.san ?? ""}
-                  </span>
-
-                  <span>
-                    {row.black?.san ?? ""}
-                  </span>
+                  <span>{row.white?.san ?? ""}</span>
+                  <span>{row.black?.san ?? ""}</span>
                 </div>
               ))}
             </div>
@@ -1950,17 +1535,15 @@ export default function LiveGamePage() {
         </section>
       </div>
 
-      {/* ======================================================
-          OPENING / FEN
-      ====================================================== */}
+      {/* OPENING / FEN */}
 
       <div className="live-info-grid">
         <section className="live-panel">
           <h2>Opening</h2>
 
           <p className="muted-text">
-            Opening recognition runs
-            after the game is saved.
+            Opening recognition runs after
+            the game is saved.
           </p>
         </section>
 
@@ -1968,30 +1551,22 @@ export default function LiveGamePage() {
           <h2>Current FEN</h2>
 
           <code className="fen-code">
-            {state?.initialized
-              ? state.fen
-              : "—"}
+            {state?.initialized ? state.fen : "—"}
           </code>
         </section>
       </div>
 
-      {/* ======================================================
-          PGN
-      ====================================================== */}
+      {/* PGN */}
 
       <section className="live-panel pgn-panel">
         <h2>PGN</h2>
 
         <pre>
-          {state?.initialized
-            ? state.pgn
-            : ""}
+          {state?.initialized ? state.pgn : ""}
         </pre>
       </section>
 
-      {/* ======================================================
-          BACKEND ERROR
-      ====================================================== */}
+      {/* BACKEND ERROR */}
 
       {state?.last_error && (
         <div className="error-message live-error">

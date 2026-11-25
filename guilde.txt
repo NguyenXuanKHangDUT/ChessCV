@@ -1,0 +1,2 @@
+Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway } | Select-Object InterfaceAlias,@{Name="IPv4";Expression={$_.IPv4Address.IPAddress}},@{Name="Gateway";Expression={$_.IPv4DefaultGateway.NextHop}}
+

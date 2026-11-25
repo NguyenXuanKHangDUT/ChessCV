@@ -1,0 +1,1353 @@
+{
+  "version": 1,
+  "languages": {
+    "en": [
+      {
+        "key": "piece_white_king",
+        "match": "White King",
+        "speech": "White King",
+        "file": "en/piece_white_king.mp3"
+      },
+      {
+        "key": "piece_white_queen",
+        "match": "White Queen",
+        "speech": "White Queen",
+        "file": "en/piece_white_queen.mp3"
+      },
+      {
+        "key": "piece_white_rook",
+        "match": "White Rook",
+        "speech": "White Rook",
+        "file": "en/piece_white_rook.mp3"
+      },
+      {
+        "key": "piece_white_bishop",
+        "match": "White Bishop",
+        "speech": "White Bishop",
+        "file": "en/piece_white_bishop.mp3"
+      },
+      {
+        "key": "piece_white_knight",
+        "match": "White Knight",
+        "speech": "White Knight",
+        "file": "en/piece_white_knight.mp3"
+      },
+      {
+        "key": "piece_white_pawn",
+        "match": "White pawn",
+        "speech": "White pawn",
+        "file": "en/piece_white_pawn.mp3"
+      },
+      {
+        "key": "castle_white_kingside",
+        "match": "White castles kingside",
+        "speech": "White castles kingside",
+        "file": "en/castle_white_kingside.mp3"
+      },
+      {
+        "key": "castle_white_queenside",
+        "match": "White castles queenside",
+        "speech": "White castles queenside",
+        "file": "en/castle_white_queenside.mp3"
+      },
+      {
+        "key": "piece_black_king",
+        "match": "Black King",
+        "speech": "Black King",
+        "file": "en/piece_black_king.mp3"
+      },
+      {
+        "key": "piece_black_queen",
+        "match": "Black Queen",
+        "speech": "Black Queen",
+        "file": "en/piece_black_queen.mp3"
+      },
+      {
+        "key": "piece_black_rook",
+        "match": "Black Rook",
+        "speech": "Black Rook",
+        "file": "en/piece_black_rook.mp3"
+      },
+      {
+        "key": "piece_black_bishop",
+        "match": "Black Bishop",
+        "speech": "Black Bishop",
+        "file": "en/piece_black_bishop.mp3"
+      },
+      {
+        "key": "piece_black_knight",
+        "match": "Black Knight",
+        "speech": "Black Knight",
+        "file": "en/piece_black_knight.mp3"
+      },
+      {
+        "key": "piece_black_pawn",
+        "match": "Black pawn",
+        "speech": "Black pawn",
+        "file": "en/piece_black_pawn.mp3"
+      },
+      {
+        "key": "castle_black_kingside",
+        "match": "Black castles kingside",
+        "speech": "Black castles kingside",
+        "file": "en/castle_black_kingside.mp3"
+      },
+      {
+        "key": "castle_black_queenside",
+        "match": "Black castles queenside",
+        "speech": "Black castles queenside",
+        "file": "en/castle_black_queenside.mp3"
+      },
+      {
+        "key": "square_a1",
+        "match": "a one",
+        "speech": "ay one",
+        "file": "en/square_a1.mp3"
+      },
+      {
+        "key": "square_a2",
+        "match": "a two",
+        "speech": "ay two",
+        "file": "en/square_a2.mp3"
+      },
+      {
+        "key": "square_a3",
+        "match": "a three",
+        "speech": "ay three",
+        "file": "en/square_a3.mp3"
+      },
+      {
+        "key": "square_a4",
+        "match": "a four",
+        "speech": "ay four",
+        "file": "en/square_a4.mp3"
+      },
+      {
+        "key": "square_a5",
+        "match": "a five",
+        "speech": "ay five",
+        "file": "en/square_a5.mp3"
+      },
+      {
+        "key": "square_a6",
+        "match": "a six",
+        "speech": "ay six",
+        "file": "en/square_a6.mp3"
+      },
+      {
+        "key": "square_a7",
+        "match": "a seven",
+        "speech": "ay seven",
+        "file": "en/square_a7.mp3"
+      },
+      {
+        "key": "square_a8",
+        "match": "a eight",
+        "speech": "ay eight",
+        "file": "en/square_a8.mp3"
+      },
+      {
+        "key": "square_b1",
+        "match": "b one",
+        "speech": "bee one",
+        "file": "en/square_b1.mp3"
+      },
+      {
+        "key": "square_b2",
+        "match": "b two",
+        "speech": "bee two",
+        "file": "en/square_b2.mp3"
+      },
+      {
+        "key": "square_b3",
+        "match": "b three",
+        "speech": "bee three",
+        "file": "en/square_b3.mp3"
+      },
+      {
+        "key": "square_b4",
+        "match": "b four",
+        "speech": "bee four",
+        "file": "en/square_b4.mp3"
+      },
+      {
+        "key": "square_b5",
+        "match": "b five",
+        "speech": "bee five",
+        "file": "en/square_b5.mp3"
+      },
+      {
+        "key": "square_b6",
+        "match": "b six",
+        "speech": "bee six",
+        "file": "en/square_b6.mp3"
+      },
+      {
+        "key": "square_b7",
+        "match": "b seven",
+        "speech": "bee seven",
+        "file": "en/square_b7.mp3"
+      },
+      {
+        "key": "square_b8",
+        "match": "b eight",
+        "speech": "bee eight",
+        "file": "en/square_b8.mp3"
+      },
+      {
+        "key": "square_c1",
+        "match": "c one",
+        "speech": "see one",
+        "file": "en/square_c1.mp3"
+      },
+      {
+        "key": "square_c2",
+        "match": "c two",
+        "speech": "see two",
+        "file": "en/square_c2.mp3"
+      },
+      {
+        "key": "square_c3",
+        "match": "c three",
+        "speech": "see three",
+        "file": "en/square_c3.mp3"
+      },
+      {
+        "key": "square_c4",
+        "match": "c four",
+        "speech": "see four",
+        "file": "en/square_c4.mp3"
+      },
+      {
+        "key": "square_c5",
+        "match": "c five",
+        "speech": "see five",
+        "file": "en/square_c5.mp3"
+      },
+      {
+        "key": "square_c6",
+        "match": "c six",
+        "speech": "see six",
+        "file": "en/square_c6.mp3"
+      },
+      {
+        "key": "square_c7",
+        "match": "c seven",
+        "speech": "see seven",
+        "file": "en/square_c7.mp3"
+      },
+      {
+        "key": "square_c8",
+        "match": "c eight",
+        "speech": "see eight",
+        "file": "en/square_c8.mp3"
+      },
+      {
+        "key": "square_d1",
+        "match": "d one",
+        "speech": "dee one",
+        "file": "en/square_d1.mp3"
+      },
+      {
+        "key": "square_d2",
+        "match": "d two",
+        "speech": "dee two",
+        "file": "en/square_d2.mp3"
+      },
+      {
+        "key": "square_d3",
+        "match": "d three",
+        "speech": "dee three",
+        "file": "en/square_d3.mp3"
+      },
+      {
+        "key": "square_d4",
+        "match": "d four",
+        "speech": "dee four",
+        "file": "en/square_d4.mp3"
+      },
+      {
+        "key": "square_d5",
+        "match": "d five",
+        "speech": "dee five",
+        "file": "en/square_d5.mp3"
+      },
+      {
+        "key": "square_d6",
+        "match": "d six",
+        "speech": "dee six",
+        "file": "en/square_d6.mp3"
+      },
+      {
+        "key": "square_d7",
+        "match": "d seven",
+        "speech": "dee seven",
+        "file": "en/square_d7.mp3"
+      },
+      {
+        "key": "square_d8",
+        "match": "d eight",
+        "speech": "dee eight",
+        "file": "en/square_d8.mp3"
+      },
+      {
+        "key": "square_e1",
+        "match": "e one",
+        "speech": "ee one",
+        "file": "en/square_e1.mp3"
+      },
+      {
+        "key": "square_e2",
+        "match": "e two",
+        "speech": "ee two",
+        "file": "en/square_e2.mp3"
+      },
+      {
+        "key": "square_e3",
+        "match": "e three",
+        "speech": "ee three",
+        "file": "en/square_e3.mp3"
+      },
+      {
+        "key": "square_e4",
+        "match": "e four",
+        "speech": "ee four",
+        "file": "en/square_e4.mp3"
+      },
+      {
+        "key": "square_e5",
+        "match": "e five",
+        "speech": "ee five",
+        "file": "en/square_e5.mp3"
+      },
+      {
+        "key": "square_e6",
+        "match": "e six",
+        "speech": "ee six",
+        "file": "en/square_e6.mp3"
+      },
+      {
+        "key": "square_e7",
+        "match": "e seven",
+        "speech": "ee seven",
+        "file": "en/square_e7.mp3"
+      },
+      {
+        "key": "square_e8",
+        "match": "e eight",
+        "speech": "ee eight",
+        "file": "en/square_e8.mp3"
+      },
+      {
+        "key": "square_f1",
+        "match": "f one",
+        "speech": "eff one",
+        "file": "en/square_f1.mp3"
+      },
+      {
+        "key": "square_f2",
+        "match": "f two",
+        "speech": "eff two",
+        "file": "en/square_f2.mp3"
+      },
+      {
+        "key": "square_f3",
+        "match": "f three",
+        "speech": "eff three",
+        "file": "en/square_f3.mp3"
+      },
+      {
+        "key": "square_f4",
+        "match": "f four",
+        "speech": "eff four",
+        "file": "en/square_f4.mp3"
+      },
+      {
+        "key": "square_f5",
+        "match": "f five",
+        "speech": "eff five",
+        "file": "en/square_f5.mp3"
+      },
+      {
+        "key": "square_f6",
+        "match": "f six",
+        "speech": "eff six",
+        "file": "en/square_f6.mp3"
+      },
+      {
+        "key": "square_f7",
+        "match": "f seven",
+        "speech": "eff seven",
+        "file": "en/square_f7.mp3"
+      },
+      {
+        "key": "square_f8",
+        "match": "f eight",
+        "speech": "eff eight",
+        "file": "en/square_f8.mp3"
+      },
+      {
+        "key": "square_g1",
+        "match": "g one",
+        "speech": "jee one",
+        "file": "en/square_g1.mp3"
+      },
+      {
+        "key": "square_g2",
+        "match": "g two",
+        "speech": "jee two",
+        "file": "en/square_g2.mp3"
+      },
+      {
+        "key": "square_g3",
+        "match": "g three",
+        "speech": "jee three",
+        "file": "en/square_g3.mp3"
+      },
+      {
+        "key": "square_g4",
+        "match": "g four",
+        "speech": "jee four",
+        "file": "en/square_g4.mp3"
+      },
+      {
+        "key": "square_g5",
+        "match": "g five",
+        "speech": "jee five",
+        "file": "en/square_g5.mp3"
+      },
+      {
+        "key": "square_g6",
+        "match": "g six",
+        "speech": "jee six",
+        "file": "en/square_g6.mp3"
+      },
+      {
+        "key": "square_g7",
+        "match": "g seven",
+        "speech": "jee seven",
+        "file": "en/square_g7.mp3"
+      },
+      {
+        "key": "square_g8",
+        "match": "g eight",
+        "speech": "jee eight",
+        "file": "en/square_g8.mp3"
+      },
+      {
+        "key": "square_h1",
+        "match": "h one",
+        "speech": "aitch one",
+        "file": "en/square_h1.mp3"
+      },
+      {
+        "key": "square_h2",
+        "match": "h two",
+        "speech": "aitch two",
+        "file": "en/square_h2.mp3"
+      },
+      {
+        "key": "square_h3",
+        "match": "h three",
+        "speech": "aitch three",
+        "file": "en/square_h3.mp3"
+      },
+      {
+        "key": "square_h4",
+        "match": "h four",
+        "speech": "aitch four",
+        "file": "en/square_h4.mp3"
+      },
+      {
+        "key": "square_h5",
+        "match": "h five",
+        "speech": "aitch five",
+        "file": "en/square_h5.mp3"
+      },
+      {
+        "key": "square_h6",
+        "match": "h six",
+        "speech": "aitch six",
+        "file": "en/square_h6.mp3"
+      },
+      {
+        "key": "square_h7",
+        "match": "h seven",
+        "speech": "aitch seven",
+        "file": "en/square_h7.mp3"
+      },
+      {
+        "key": "square_h8",
+        "match": "h eight",
+        "speech": "aitch eight",
+        "file": "en/square_h8.mp3"
+      },
+      {
+        "key": "file_a",
+        "match": "a",
+        "speech": "ay",
+        "file": "en/file_a.mp3"
+      },
+      {
+        "key": "file_b",
+        "match": "b",
+        "speech": "bee",
+        "file": "en/file_b.mp3"
+      },
+      {
+        "key": "file_c",
+        "match": "c",
+        "speech": "see",
+        "file": "en/file_c.mp3"
+      },
+      {
+        "key": "file_d",
+        "match": "d",
+        "speech": "dee",
+        "file": "en/file_d.mp3"
+      },
+      {
+        "key": "file_e",
+        "match": "e",
+        "speech": "ee",
+        "file": "en/file_e.mp3"
+      },
+      {
+        "key": "file_f",
+        "match": "f",
+        "speech": "eff",
+        "file": "en/file_f.mp3"
+      },
+      {
+        "key": "file_g",
+        "match": "g",
+        "speech": "jee",
+        "file": "en/file_g.mp3"
+      },
+      {
+        "key": "file_h",
+        "match": "h",
+        "speech": "aitch",
+        "file": "en/file_h.mp3"
+      },
+      {
+        "key": "rank_1",
+        "match": "one",
+        "speech": "one",
+        "file": "en/rank_1.mp3"
+      },
+      {
+        "key": "rank_2",
+        "match": "two",
+        "speech": "two",
+        "file": "en/rank_2.mp3"
+      },
+      {
+        "key": "rank_3",
+        "match": "three",
+        "speech": "three",
+        "file": "en/rank_3.mp3"
+      },
+      {
+        "key": "rank_4",
+        "match": "four",
+        "speech": "four",
+        "file": "en/rank_4.mp3"
+      },
+      {
+        "key": "rank_5",
+        "match": "five",
+        "speech": "five",
+        "file": "en/rank_5.mp3"
+      },
+      {
+        "key": "rank_6",
+        "match": "six",
+        "speech": "six",
+        "file": "en/rank_6.mp3"
+      },
+      {
+        "key": "rank_7",
+        "match": "seven",
+        "speech": "seven",
+        "file": "en/rank_7.mp3"
+      },
+      {
+        "key": "rank_8",
+        "match": "eight",
+        "speech": "eight",
+        "file": "en/rank_8.mp3"
+      },
+      {
+        "key": "action_from",
+        "match": "from",
+        "speech": "from",
+        "file": "en/action_from.mp3"
+      },
+      {
+        "key": "action_to",
+        "match": "to",
+        "speech": "to",
+        "file": "en/action_to.mp3"
+      },
+      {
+        "key": "action_takes",
+        "match": "takes",
+        "speech": "takes",
+        "file": "en/action_takes.mp3"
+      },
+      {
+        "key": "action_check",
+        "match": "check",
+        "speech": "check",
+        "file": "en/action_check.mp3"
+      },
+      {
+        "key": "action_checkmate",
+        "match": "checkmate",
+        "speech": "checkmate",
+        "file": "en/action_checkmate.mp3"
+      },
+      {
+        "key": "action_illegal",
+        "match": "Illegal move",
+        "speech": "Illegal move",
+        "file": "en/action_illegal.mp3"
+      },
+      {
+        "key": "promote_queen",
+        "match": "promotes to Queen",
+        "speech": "promotes to Queen",
+        "file": "en/promote_queen.mp3"
+      },
+      {
+        "key": "promote_rook",
+        "match": "promotes to Rook",
+        "speech": "promotes to Rook",
+        "file": "en/promote_rook.mp3"
+      },
+      {
+        "key": "promote_bishop",
+        "match": "promotes to Bishop",
+        "speech": "promotes to Bishop",
+        "file": "en/promote_bishop.mp3"
+      },
+      {
+        "key": "promote_knight",
+        "match": "promotes to Knight",
+        "speech": "promotes to Knight",
+        "file": "en/promote_knight.mp3"
+      }
+    ],
+    "vi": [
+      {
+        "key": "piece_white_king",
+        "match": "Trắng Vua",
+        "speech": "Trắng Vua",
+        "file": "vi/piece_white_king.mp3"
+      },
+      {
+        "key": "illegal_piece_white_king",
+        "match": "Vua trắng",
+        "speech": "Vua trắng",
+        "file": "vi/illegal_piece_white_king.mp3"
+      },
+      {
+        "key": "piece_white_queen",
+        "match": "Trắng Hậu",
+        "speech": "Trắng Hậu",
+        "file": "vi/piece_white_queen.mp3"
+      },
+      {
+        "key": "illegal_piece_white_queen",
+        "match": "Hậu trắng",
+        "speech": "Hậu trắng",
+        "file": "vi/illegal_piece_white_queen.mp3"
+      },
+      {
+        "key": "piece_white_rook",
+        "match": "Trắng Xe",
+        "speech": "Trắng Xe",
+        "file": "vi/piece_white_rook.mp3"
+      },
+      {
+        "key": "illegal_piece_white_rook",
+        "match": "Xe trắng",
+        "speech": "Xe trắng",
+        "file": "vi/illegal_piece_white_rook.mp3"
+      },
+      {
+        "key": "piece_white_bishop",
+        "match": "Trắng Tượng",
+        "speech": "Trắng Tượng",
+        "file": "vi/piece_white_bishop.mp3"
+      },
+      {
+        "key": "illegal_piece_white_bishop",
+        "match": "Tượng trắng",
+        "speech": "Tượng trắng",
+        "file": "vi/illegal_piece_white_bishop.mp3"
+      },
+      {
+        "key": "piece_white_knight",
+        "match": "Trắng Mã",
+        "speech": "Trắng Mã",
+        "file": "vi/piece_white_knight.mp3"
+      },
+      {
+        "key": "illegal_piece_white_knight",
+        "match": "Mã trắng",
+        "speech": "Mã trắng",
+        "file": "vi/illegal_piece_white_knight.mp3"
+      },
+      {
+        "key": "piece_white_pawn",
+        "match": "Trắng Tốt",
+        "speech": "Trắng Tốt",
+        "file": "vi/piece_white_pawn.mp3"
+      },
+      {
+        "key": "illegal_piece_white_pawn",
+        "match": "Tốt trắng",
+        "speech": "Tốt trắng",
+        "file": "vi/illegal_piece_white_pawn.mp3"
+      },
+      {
+        "key": "castle_white_kingside",
+        "match": "Trắng nhập thành cánh vua",
+        "speech": "Trắng nhập thành cánh vua",
+        "file": "vi/castle_white_kingside.mp3"
+      },
+      {
+        "key": "castle_white_queenside",
+        "match": "Trắng nhập thành cánh hậu",
+        "speech": "Trắng nhập thành cánh hậu",
+        "file": "vi/castle_white_queenside.mp3"
+      },
+      {
+        "key": "piece_black_king",
+        "match": "Đen Vua",
+        "speech": "Đen Vua",
+        "file": "vi/piece_black_king.mp3"
+      },
+      {
+        "key": "illegal_piece_black_king",
+        "match": "Vua đen",
+        "speech": "Vua đen",
+        "file": "vi/illegal_piece_black_king.mp3"
+      },
+      {
+        "key": "piece_black_queen",
+        "match": "Đen Hậu",
+        "speech": "Đen Hậu",
+        "file": "vi/piece_black_queen.mp3"
+      },
+      {
+        "key": "illegal_piece_black_queen",
+        "match": "Hậu đen",
+        "speech": "Hậu đen",
+        "file": "vi/illegal_piece_black_queen.mp3"
+      },
+      {
+        "key": "piece_black_rook",
+        "match": "Đen Xe",
+        "speech": "Đen Xe",
+        "file": "vi/piece_black_rook.mp3"
+      },
+      {
+        "key": "illegal_piece_black_rook",
+        "match": "Xe đen",
+        "speech": "Xe đen",
+        "file": "vi/illegal_piece_black_rook.mp3"
+      },
+      {
+        "key": "piece_black_bishop",
+        "match": "Đen Tượng",
+        "speech": "Đen Tượng",
+        "file": "vi/piece_black_bishop.mp3"
+      },
+      {
+        "key": "illegal_piece_black_bishop",
+        "match": "Tượng đen",
+        "speech": "Tượng đen",
+        "file": "vi/illegal_piece_black_bishop.mp3"
+      },
+      {
+        "key": "piece_black_knight",
+        "match": "Đen Mã",
+        "speech": "Đen Mã",
+        "file": "vi/piece_black_knight.mp3"
+      },
+      {
+        "key": "illegal_piece_black_knight",
+        "match": "Mã đen",
+        "speech": "Mã đen",
+        "file": "vi/illegal_piece_black_knight.mp3"
+      },
+      {
+        "key": "piece_black_pawn",
+        "match": "Đen Tốt",
+        "speech": "Đen Tốt",
+        "file": "vi/piece_black_pawn.mp3"
+      },
+      {
+        "key": "illegal_piece_black_pawn",
+        "match": "Tốt đen",
+        "speech": "Tốt đen",
+        "file": "vi/illegal_piece_black_pawn.mp3"
+      },
+      {
+        "key": "castle_black_kingside",
+        "match": "Đen nhập thành cánh vua",
+        "speech": "Đen nhập thành cánh vua",
+        "file": "vi/castle_black_kingside.mp3"
+      },
+      {
+        "key": "castle_black_queenside",
+        "match": "Đen nhập thành cánh hậu",
+        "speech": "Đen nhập thành cánh hậu",
+        "file": "vi/castle_black_queenside.mp3"
+      },
+      {
+        "key": "square_a1",
+        "match": "a một",
+        "speech": "a một",
+        "file": "vi/square_a1.mp3"
+      },
+      {
+        "key": "square_a2",
+        "match": "a hai",
+        "speech": "a hai",
+        "file": "vi/square_a2.mp3"
+      },
+      {
+        "key": "square_a3",
+        "match": "a ba",
+        "speech": "a ba",
+        "file": "vi/square_a3.mp3"
+      },
+      {
+        "key": "square_a4",
+        "match": "a bốn",
+        "speech": "a bốn",
+        "file": "vi/square_a4.mp3"
+      },
+      {
+        "key": "square_a5",
+        "match": "a năm",
+        "speech": "a năm",
+        "file": "vi/square_a5.mp3"
+      },
+      {
+        "key": "square_a6",
+        "match": "a sáu",
+        "speech": "a sáu",
+        "file": "vi/square_a6.mp3"
+      },
+      {
+        "key": "square_a7",
+        "match": "a bảy",
+        "speech": "a bảy",
+        "file": "vi/square_a7.mp3"
+      },
+      {
+        "key": "square_a8",
+        "match": "a tám",
+        "speech": "a tám",
+        "file": "vi/square_a8.mp3"
+      },
+      {
+        "key": "square_b1",
+        "match": "bê một",
+        "speech": "bê một",
+        "file": "vi/square_b1.mp3"
+      },
+      {
+        "key": "square_b2",
+        "match": "bê hai",
+        "speech": "bê hai",
+        "file": "vi/square_b2.mp3"
+      },
+      {
+        "key": "square_b3",
+        "match": "bê ba",
+        "speech": "bê ba",
+        "file": "vi/square_b3.mp3"
+      },
+      {
+        "key": "square_b4",
+        "match": "bê bốn",
+        "speech": "bê bốn",
+        "file": "vi/square_b4.mp3"
+      },
+      {
+        "key": "square_b5",
+        "match": "bê năm",
+        "speech": "bê năm",
+        "file": "vi/square_b5.mp3"
+      },
+      {
+        "key": "square_b6",
+        "match": "bê sáu",
+        "speech": "bê sáu",
+        "file": "vi/square_b6.mp3"
+      },
+      {
+        "key": "square_b7",
+        "match": "bê bảy",
+        "speech": "bê bảy",
+        "file": "vi/square_b7.mp3"
+      },
+      {
+        "key": "square_b8",
+        "match": "bê tám",
+        "speech": "bê tám",
+        "file": "vi/square_b8.mp3"
+      },
+      {
+        "key": "square_c1",
+        "match": "xê một",
+        "speech": "xê một",
+        "file": "vi/square_c1.mp3"
+      },
+      {
+        "key": "square_c2",
+        "match": "xê hai",
+        "speech": "xê hai",
+        "file": "vi/square_c2.mp3"
+      },
+      {
+        "key": "square_c3",
+        "match": "xê ba",
+        "speech": "xê ba",
+        "file": "vi/square_c3.mp3"
+      },
+      {
+        "key": "square_c4",
+        "match": "xê bốn",
+        "speech": "xê bốn",
+        "file": "vi/square_c4.mp3"
+      },
+      {
+        "key": "square_c5",
+        "match": "xê năm",
+        "speech": "xê năm",
+        "file": "vi/square_c5.mp3"
+      },
+      {
+        "key": "square_c6",
+        "match": "xê sáu",
+        "speech": "xê sáu",
+        "file": "vi/square_c6.mp3"
+      },
+      {
+        "key": "square_c7",
+        "match": "xê bảy",
+        "speech": "xê bảy",
+        "file": "vi/square_c7.mp3"
+      },
+      {
+        "key": "square_c8",
+        "match": "xê tám",
+        "speech": "xê tám",
+        "file": "vi/square_c8.mp3"
+      },
+      {
+        "key": "square_d1",
+        "match": "đê một",
+        "speech": "đê một",
+        "file": "vi/square_d1.mp3"
+      },
+      {
+        "key": "square_d2",
+        "match": "đê hai",
+        "speech": "đê hai",
+        "file": "vi/square_d2.mp3"
+      },
+      {
+        "key": "square_d3",
+        "match": "đê ba",
+        "speech": "đê ba",
+        "file": "vi/square_d3.mp3"
+      },
+      {
+        "key": "square_d4",
+        "match": "đê bốn",
+        "speech": "đê bốn",
+        "file": "vi/square_d4.mp3"
+      },
+      {
+        "key": "square_d5",
+        "match": "đê năm",
+        "speech": "đê năm",
+        "file": "vi/square_d5.mp3"
+      },
+      {
+        "key": "square_d6",
+        "match": "đê sáu",
+        "speech": "đê sáu",
+        "file": "vi/square_d6.mp3"
+      },
+      {
+        "key": "square_d7",
+        "match": "đê bảy",
+        "speech": "đê bảy",
+        "file": "vi/square_d7.mp3"
+      },
+      {
+        "key": "square_d8",
+        "match": "đê tám",
+        "speech": "đê tám",
+        "file": "vi/square_d8.mp3"
+      },
+      {
+        "key": "square_e1",
+        "match": "e một",
+        "speech": "e một",
+        "file": "vi/square_e1.mp3"
+      },
+      {
+        "key": "square_e2",
+        "match": "e hai",
+        "speech": "e hai",
+        "file": "vi/square_e2.mp3"
+      },
+      {
+        "key": "square_e3",
+        "match": "e ba",
+        "speech": "e ba",
+        "file": "vi/square_e3.mp3"
+      },
+      {
+        "key": "square_e4",
+        "match": "e bốn",
+        "speech": "e bốn",
+        "file": "vi/square_e4.mp3"
+      },
+      {
+        "key": "square_e5",
+        "match": "e năm",
+        "speech": "e năm",
+        "file": "vi/square_e5.mp3"
+      },
+      {
+        "key": "square_e6",
+        "match": "e sáu",
+        "speech": "e sáu",
+        "file": "vi/square_e6.mp3"
+      },
+      {
+        "key": "square_e7",
+        "match": "e bảy",
+        "speech": "e bảy",
+        "file": "vi/square_e7.mp3"
+      },
+      {
+        "key": "square_e8",
+        "match": "e tám",
+        "speech": "e tám",
+        "file": "vi/square_e8.mp3"
+      },
+      {
+        "key": "square_f1",
+        "match": "ép một",
+        "speech": "ép một",
+        "file": "vi/square_f1.mp3"
+      },
+      {
+        "key": "square_f2",
+        "match": "ép hai",
+        "speech": "ép hai",
+        "file": "vi/square_f2.mp3"
+      },
+      {
+        "key": "square_f3",
+        "match": "ép ba",
+        "speech": "ép ba",
+        "file": "vi/square_f3.mp3"
+      },
+      {
+        "key": "square_f4",
+        "match": "ép bốn",
+        "speech": "ép bốn",
+        "file": "vi/square_f4.mp3"
+      },
+      {
+        "key": "square_f5",
+        "match": "ép năm",
+        "speech": "ép năm",
+        "file": "vi/square_f5.mp3"
+      },
+      {
+        "key": "square_f6",
+        "match": "ép sáu",
+        "speech": "ép sáu",
+        "file": "vi/square_f6.mp3"
+      },
+      {
+        "key": "square_f7",
+        "match": "ép bảy",
+        "speech": "ép bảy",
+        "file": "vi/square_f7.mp3"
+      },
+      {
+        "key": "square_f8",
+        "match": "ép tám",
+        "speech": "ép tám",
+        "file": "vi/square_f8.mp3"
+      },
+      {
+        "key": "square_g1",
+        "match": "giê một",
+        "speech": "giê một",
+        "file": "vi/square_g1.mp3"
+      },
+      {
+        "key": "square_g2",
+        "match": "giê hai",
+        "speech": "giê hai",
+        "file": "vi/square_g2.mp3"
+      },
+      {
+        "key": "square_g3",
+        "match": "giê ba",
+        "speech": "giê ba",
+        "file": "vi/square_g3.mp3"
+      },
+      {
+        "key": "square_g4",
+        "match": "giê bốn",
+        "speech": "giê bốn",
+        "file": "vi/square_g4.mp3"
+      },
+      {
+        "key": "square_g5",
+        "match": "giê năm",
+        "speech": "giê năm",
+        "file": "vi/square_g5.mp3"
+      },
+      {
+        "key": "square_g6",
+        "match": "giê sáu",
+        "speech": "giê sáu",
+        "file": "vi/square_g6.mp3"
+      },
+      {
+        "key": "square_g7",
+        "match": "giê bảy",
+        "speech": "giê bảy",
+        "file": "vi/square_g7.mp3"
+      },
+      {
+        "key": "square_g8",
+        "match": "giê tám",
+        "speech": "giê tám",
+        "file": "vi/square_g8.mp3"
+      },
+      {
+        "key": "square_h1",
+        "match": "hát một",
+        "speech": "hát một",
+        "file": "vi/square_h1.mp3"
+      },
+      {
+        "key": "square_h2",
+        "match": "hát hai",
+        "speech": "hát hai",
+        "file": "vi/square_h2.mp3"
+      },
+      {
+        "key": "square_h3",
+        "match": "hát ba",
+        "speech": "hát ba",
+        "file": "vi/square_h3.mp3"
+      },
+      {
+        "key": "square_h4",
+        "match": "hát bốn",
+        "speech": "hát bốn",
+        "file": "vi/square_h4.mp3"
+      },
+      {
+        "key": "square_h5",
+        "match": "hát năm",
+        "speech": "hát năm",
+        "file": "vi/square_h5.mp3"
+      },
+      {
+        "key": "square_h6",
+        "match": "hát sáu",
+        "speech": "hát sáu",
+        "file": "vi/square_h6.mp3"
+      },
+      {
+        "key": "square_h7",
+        "match": "hát bảy",
+        "speech": "hát bảy",
+        "file": "vi/square_h7.mp3"
+      },
+      {
+        "key": "square_h8",
+        "match": "hát tám",
+        "speech": "hát tám",
+        "file": "vi/square_h8.mp3"
+      },
+      {
+        "key": "file_a",
+        "match": "a",
+        "speech": "a",
+        "file": "vi/file_a.mp3"
+      },
+      {
+        "key": "file_b",
+        "match": "bê",
+        "speech": "bê",
+        "file": "vi/file_b.mp3"
+      },
+      {
+        "key": "file_c",
+        "match": "xê",
+        "speech": "xê",
+        "file": "vi/file_c.mp3"
+      },
+      {
+        "key": "file_d",
+        "match": "đê",
+        "speech": "đê",
+        "file": "vi/file_d.mp3"
+      },
+      {
+        "key": "file_e",
+        "match": "e",
+        "speech": "e",
+        "file": "vi/file_e.mp3"
+      },
+      {
+        "key": "file_f",
+        "match": "ép",
+        "speech": "ép",
+        "file": "vi/file_f.mp3"
+      },
+      {
+        "key": "file_g",
+        "match": "giê",
+        "speech": "giê",
+        "file": "vi/file_g.mp3"
+      },
+      {
+        "key": "file_h",
+        "match": "hát",
+        "speech": "hát",
+        "file": "vi/file_h.mp3"
+      },
+      {
+        "key": "rank_1",
+        "match": "một",
+        "speech": "một",
+        "file": "vi/rank_1.mp3"
+      },
+      {
+        "key": "rank_2",
+        "match": "hai",
+        "speech": "hai",
+        "file": "vi/rank_2.mp3"
+      },
+      {
+        "key": "rank_3",
+        "match": "ba",
+        "speech": "ba",
+        "file": "vi/rank_3.mp3"
+      },
+      {
+        "key": "rank_4",
+        "match": "bốn",
+        "speech": "bốn",
+        "file": "vi/rank_4.mp3"
+      },
+      {
+        "key": "rank_5",
+        "match": "năm",
+        "speech": "năm",
+        "file": "vi/rank_5.mp3"
+      },
+      {
+        "key": "rank_6",
+        "match": "sáu",
+        "speech": "sáu",
+        "file": "vi/rank_6.mp3"
+      },
+      {
+        "key": "rank_7",
+        "match": "bảy",
+        "speech": "bảy",
+        "file": "vi/rank_7.mp3"
+      },
+      {
+        "key": "rank_8",
+        "match": "tám",
+        "speech": "tám",
+        "file": "vi/rank_8.mp3"
+      },
+      {
+        "key": "action_from",
+        "match": "từ",
+        "speech": "từ",
+        "file": "vi/action_from.mp3"
+      },
+      {
+        "key": "action_to",
+        "match": "đến",
+        "speech": "đến",
+        "file": "vi/action_to.mp3"
+      },
+      {
+        "key": "action_takes",
+        "match": "ăn",
+        "speech": "ăn",
+        "file": "vi/action_takes.mp3"
+      },
+      {
+        "key": "action_check",
+        "match": "chiếu",
+        "speech": "chiếu",
+        "file": "vi/action_check.mp3"
+      },
+      {
+        "key": "action_checkmate",
+        "match": "chiếu hết",
+        "speech": "chiếu hết",
+        "file": "vi/action_checkmate.mp3"
+      },
+      {
+        "key": "action_illegal",
+        "match": "Nước đi không hợp lệ",
+        "speech": "Nước đi không hợp lệ",
+        "file": "vi/action_illegal.mp3"
+      },
+      {
+        "key": "promote_queen",
+        "match": "phong thành Hậu",
+        "speech": "phong thành Hậu",
+        "file": "vi/promote_queen.mp3"
+      },
+      {
+        "key": "promote_rook",
+        "match": "phong thành Xe",
+        "speech": "phong thành Xe",
+        "file": "vi/promote_rook.mp3"
+      },
+      {
+        "key": "promote_bishop",
+        "match": "phong thành Tượng",
+        "speech": "phong thành Tượng",
+        "file": "vi/promote_bishop.mp3"
+      },
+      {
+        "key": "promote_knight",
+        "match": "phong thành Mã",
+        "speech": "phong thành Mã",
+        "file": "vi/promote_knight.mp3"
+      }
+    ]
+  }
+}
