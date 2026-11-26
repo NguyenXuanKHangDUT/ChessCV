@@ -1,0 +1,81 @@
+{
+    "sample_id": "20261126_164353_705",
+    "fen": "4rk2/1ppb4/p2bBnq1/3P1p1p/3Q1P1B/P1N3p1/1P4PP/4R1K1",
+    "board_fen": "4rk2/1ppb4/p2bBnq1/3P1p1p/3Q1P1B/P1N3p1/1P4PP/4R1K1",
+    "outer_points": [
+        [
+            485,
+            41
+        ],
+        [
+            969,
+            21
+        ],
+        [
+            1010,
+            516
+        ],
+        [
+            491,
+            541
+        ]
+    ],
+    "board_points": [
+        [
+            508,
+            67
+        ],
+        [
+            947,
+            50
+        ],
+        [
+            984,
+            498
+        ],
+        [
+            516,
+            518
+        ]
+    ],
+    "homography": [
+        [
+            0.0733021177619008,
+            1.9229988149740718,
+            -34.99651416816329
+        ],
+        [
+            -1.829758708117361,
+            0.17039365267928097,
+            1854.8323460542374
+        ],
+        [
+            -3.208102535033612e-06,
+            0.00014853563140743885,
+            1.0
+        ]
+    ],
+    "board_size": 800,
+    "square_size": 100,
+    "board_origin": [
+        130,
+        130
+    ],
+    "context_size": [
+        1060,
+        1060
+    ],
+    "context_margin": 130,
+    "occupancy_crop_size": 100,
+    "piece_crop_sizes": [
+        140,
+        180,
+        220
+    ],
+    "orientation": "black_top_white_bottom",
+    "camera_source": "imou_rtsp",
+    "working_frame_size": [
+        1280,
+        720
+    ]
+}
